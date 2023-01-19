@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Register = () => {
     const initialState = {
         username: '',
-        password: ''
+        password: '',
+        confirmPassword: '',
     }
 
-    const [loginFields, setLoginFields] = useState(initialState)
+    const [registerFields, setRegisterFields] = useState(initialState)
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
-    const handleLoginChange = (event) => {
+    const handleRegisterChange = (event) => {
         const { name, value } = event.target
-        setLoginFields({
-            ...loginFields,
+        setRegisterFields({
+            ...registerFields,
             [name]: value
         })
     }
@@ -27,12 +28,11 @@ const Login = () => {
                 {/* Main title */}
                 <div className='flex flex-col p-3 items-center gap-3'>
                     <div className='text-3xl font-bold'>
-                        Guessing Flags
+                        Create an account
                     </div>
                     <div>
-                        Know your flags and become a country flag trivia champion!
+                        Register
                     </div>
-
                 </div>
                 {/* Linebreak */}
                 <div className='bg-white h-1 w-full'>
@@ -40,21 +40,23 @@ const Login = () => {
                 </div>
                 {/* Login Form */}
                 <div className='flex flex-col gap-3 p-6 items-center'>
-                    
-                    <form className='flex flex-col gap-6 w-72'    >
-
-                        <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
+                    <form className='flex flex-col gap-6 w-72' >
+                        <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
                             className="p-2 rounded-lg" />
-                        <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
+                        <input type="text" name="username" value={registerFields.username} onChange={handleRegisterChange} placeholder=" email address *"
                             className="p-2 rounded-lg" />
+                        <input type="password" name="password" value={registerFields.password} onChange={handleRegisterChange} placeholder=" password *"
+                            className="p-2 rounded-lg" />
+                        <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
+                            className='p-2 rounded-lg' />
                         {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
 
                         {/* Login button */}
                         <label className='flex flex-col'>
-                            <input type="submit" value="LOGIN" className='p-2 rounded-lg border-2'/>
+                            <input type="submit" value="CREATE ACCOUNT" className='p-2 rounded-lg border-2' />
                         </label>
                         <div>
-                            New Player? <Link to="/register" className='underline'>Register</Link>
+                            Played before? <Link to="/" className='underline'>Login</Link>
                         </div>
                     </form>
                 </div>
@@ -64,4 +66,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register
