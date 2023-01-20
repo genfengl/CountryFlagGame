@@ -5,10 +5,11 @@ import './App.css'
 import Login from './components/Login'
 import Register from './components/Register'
 import Game from './components/Game'
+import Navbar from './components/Navbar'
 
 
 function App() {
-  const {currentUser} = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext)
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -19,7 +20,9 @@ function App() {
 
   return (
     <div className="App">
+
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/register' element={<Register />} />
