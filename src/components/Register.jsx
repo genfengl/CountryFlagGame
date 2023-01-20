@@ -1,5 +1,10 @@
+
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../Firebase-config'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../Firebase-config'
 
 const Register = () => {
     const initialState = {
@@ -19,6 +24,33 @@ const Register = () => {
             [name]: value
         })
     }
+    // the function for register submission
+    const handleRegisterSubmit = async (event) => {
+        event.preventDefault()
+        // event.target is the form
+        const displayName = event.target[0].value
+        const email = event.target[1].value
+        const password = event.target[2].value
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, password)
+            console.log(res.user.uid)
+            // user signed up (created user)
+
+            await setDoc(doc(db, "users", res.user.uid), {
+                uid: res.user.uid,
+                displayName: displayName,
+                email: email, 
+                highestScore: 0,
+                totalScore: 0,
+                totalAttemptedQuestions: 0,
+                totalAccuracy: 0,
+            })
+            navigate('/game')
+        } catch (error) {
+            setError(true)
+            console.log('unseccessful. Error Message:', error.message)
+        }
+    }
 
     return (
         // Flex container
@@ -28,7 +60,7 @@ const Register = () => {
                 {/* Main title */}
                 <div className='flex flex-col p-3 items-center gap-3'>
                     <div className='text-3xl font-bold'>
-                        Create an account
+                        Create Account
                     </div>
                     <div>
                         Register
@@ -40,7 +72,7 @@ const Register = () => {
                 </div>
                 {/* Login Form */}
                 <div className='flex flex-col gap-3 p-6 items-center'>
-                    <form className='flex flex-col gap-6 w-72' >
+                    <form className='flex flex-col gap-6 w-72' onSubmit={handleRegisterSubmit} >
                         <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
                             className="p-2 rounded-lg" />
                         <input type="text" name="username" value={registerFields.username} onChange={handleRegisterChange} placeholder=" email address *"
