@@ -1,3 +1,5 @@
+import { auth } from '../Firebase-config'
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -19,6 +21,22 @@ const Login = () => {
         })
     }
 
+    const handleLoginSubmit = (event) => {
+        event.preventDefault()
+        const email = event.target[0].value
+        const password = event.target[1].value
+
+        setPersistence(auth, browserSessionPersistence)
+            .then(() => {
+                return signInWithEmailAndPassword(auth, email, password)
+            })
+            .catch((error) => {
+                setError(true)
+                console.log('error code: ' + error.code + ' error message: ' + error.message)
+            })
+        navigate('/game')
+    }
+
     return (
         // Flex container
         <div className='grid h-screen'>
@@ -30,7 +48,7 @@ const Login = () => {
                         Guessing Flags
                     </div>
                     <div>
-                        Know your flags and become a country flag trivia champion!
+                        Become a country flag trivia champion!
                     </div>
 
                 </div>
@@ -40,8 +58,8 @@ const Login = () => {
                 </div>
                 {/* Login Form */}
                 <div className='flex flex-col gap-3 p-6 items-center'>
-                    
-                    <form className='flex flex-col gap-6 w-72'    >
+
+                    <form className='flex flex-col gap-6 w-72' onSubmit={handleLoginSubmit}    >
 
                         <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
                             className="p-2 rounded-lg" />
@@ -51,7 +69,7 @@ const Login = () => {
 
                         {/* Login button */}
                         <label className='flex flex-col'>
-                            <input type="submit" value="LOGIN" className='p-2 rounded-lg border-2'/>
+                            <input type="submit" value="LOGIN" className='p-2 rounded-lg border-2' />
                         </label>
                         <div>
                             New Player? <Link to="/register" className='underline'>Register</Link>

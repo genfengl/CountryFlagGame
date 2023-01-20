@@ -31,6 +31,10 @@ const Register = () => {
         const displayName = event.target[0].value
         const email = event.target[1].value
         const password = event.target[2].value
+        const confirmPassword = event.target[3].value
+        if (password !== confirmPassword) {
+            return setError(true)
+        }
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
             console.log(res.user.uid)
@@ -81,7 +85,7 @@ const Register = () => {
                             className="p-2 rounded-lg" />
                         <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
                             className='p-2 rounded-lg' />
-                        {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
+                        {error && <span className="text-sm p-0 text-red-500 mt-0">Email already used or invalid password. <br/> Please try again.</span>}
 
                         {/* Login button */}
                         <label className='flex flex-col'>
