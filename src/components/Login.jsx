@@ -2,8 +2,12 @@ import { auth } from '../Firebase-config'
 import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Login = () => {
+    const { currentUser } = useContext(AuthContext)
+
     const initialState = {
         username: '',
         password: ''
@@ -21,12 +25,12 @@ const Login = () => {
         })
     }
 
-    const handleLoginSubmit = (event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault()
         const email = event.target[0].value
         const password = event.target[1].value
 
-        setPersistence(auth, browserSessionPersistence)
+        await setPersistence(auth, browserSessionPersistence)
             .then(() => {
                 return signInWithEmailAndPassword(auth, email, password)
             })
@@ -35,8 +39,9 @@ const Login = () => {
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
         navigate('/game')
+        
     }
-
+    // console.log(currentUser.uid)
     return (
         // Flex container
         <div className='grid h-screen'>

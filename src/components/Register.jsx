@@ -45,7 +45,7 @@ const Register = () => {
                 displayName: displayName,
                 email: email, 
                 highestScore: 0,
-                totalScore: 0,
+                totalCorrectAnswers: 0,
                 totalAttemptedQuestions: 0,
                 totalAccuracy: 0,
             })
@@ -59,7 +59,7 @@ const Register = () => {
     return (
         // Flex container
         <div className='grid h-screen'>
-            {/* Login container */}
+            {/* Register container */}
             <div className='flex flex-col gap-3 justify-center items-center justify-self-center self-center border-2 rounded-xl p-6'>
                 {/* Main title */}
                 <div className='flex flex-col p-3 items-center gap-3'>
@@ -74,7 +74,7 @@ const Register = () => {
                 <div className='bg-white h-1 w-full'>
 
                 </div>
-                {/* Login Form */}
+                {/* Register Form */}
                 <div className='flex flex-col gap-3 p-6 items-center'>
                     <form className='flex flex-col gap-6 w-72' onSubmit={handleRegisterSubmit} >
                         <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
@@ -87,7 +87,7 @@ const Register = () => {
                             className='p-2 rounded-lg' />
                         {error && <span className="text-sm p-0 text-red-500 mt-0">Email already used or invalid password. <br/> Please try again.</span>}
 
-                        {/* Login button */}
+                        {/* Register button */}
                         <label className='flex flex-col'>
                             <input type="submit" value="CREATE ACCOUNT" className='p-2 rounded-lg border-2' />
                         </label>

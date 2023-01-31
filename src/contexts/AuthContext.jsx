@@ -16,7 +16,8 @@ export const AuthContextProvider = ({ children }) => {
                 const docRef = doc(db, 'users', user.uid)
                 const docSnap = await getDoc(docRef)
                 if (docSnap.exists()) {
-                    console.log(docSnap.data().displayName)
+                    
+                    // console.log(docSnap.data().displayName)
                     setCurrentDisplayName(docSnap.data().displayName)
                 } else {
                     console.log("No such document!")
