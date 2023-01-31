@@ -4,8 +4,9 @@ import { AuthContext } from './contexts/AuthContext'
 import './App.css'
 import Login from './components/Login'
 import Register from './components/Register'
-import Game from './components/Game'
+import Lobby from './components/Lobby'
 import Navbar from './components/Navbar'
+import Game from './components/Game'
 
 
 function App() {
@@ -20,13 +21,15 @@ function App() {
 
   return (
     <div className="App">
-
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/game' element={<ProtectedRoute>
+          <Route path='/lobby' element={<ProtectedRoute>
+            <Lobby />
+          </ProtectedRoute>} />
+          <Route path='/game/:uid' element={<ProtectedRoute>
             <Game />
           </ProtectedRoute>} />
 

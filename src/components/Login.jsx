@@ -38,7 +38,7 @@ const Login = () => {
                 setError(true)
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
-        navigate('/game')
+        navigate('/lobby')
         
     }
     // console.log(currentUser.uid)
