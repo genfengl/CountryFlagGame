@@ -4,7 +4,8 @@ import { useState } from 'react'
 const Game = () => {
     const [gameStart, setGameStart] = useState(false)
     const [timeLeft, setTimeLeft] = useState(3)
-    const [flagCountryCode, setFlagCountryCode] = useState('za')
+    const [flagRandomNumbers, setFlagRandomNumbers] = useState([])
+    const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [attemptedQuestion, setAttemptedQuestion] = useState(0)
     const [correctAnswerChoice, setCorrectAnswerChoice] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
@@ -281,38 +282,37 @@ const Game = () => {
     }, 1000)
 
     useEffect(() => {
-        const getRandomFlagCode = () => {
-            let random = Math.floor(Math.random() * countryCode.length)
-            let randomCode = countryCode[random]
-            console.log(randomCode)
-            setFlagCountryCode(randomCode.toLowerCase())
-            setCorrectAnswer(countryList[randomCode])
-        }
-        const getRandomCorrectAnswer = () => {
-            let random = Math.floor(Math.random() * 4)
-            setCorrectAnswerChoice(random)
-        }
-        const assignCorrectAnswer = () => {
-            if (correctAnswerChoice === 0) {
-                setAnswer0(correctAnswer)
-            } else if (correctAnswerChoice === 1) {
-                setAnswer1(correctAnswer)
-            } else if (correctAnswerChoice === 2) {
-                setAnswer2(correctAnswer)
-            } else if (correctAnswerChoice === 3) {
-                setAnswer3(correctAnswer)
+        // generate four unique random numbers from 0-248, store them in flagRandomNumbers state
+        const getFourRandomFlagCodes = () => {
+            const fourRandomNumbers = []
+            while (fourRandomNumbers.length < 4) {
+                let candidateInt = Math.floor(Math.random() * countryCode.length)
+                if (fourRandomNumbers.indexOf(candidateInt) === -1) {
+                    fourRandomNumbers.push(candidateInt)
+                }
             }
+            setFlagRandomNumbers([])
+            setFlagRandomNumbers(fourRandomNumbers)
         }
+        // convert the numbers in flagRandomNumbers to countryCodes, and store them in the flagCountryCodes state
+        const convertNumbersToFlagCodes = () => {
+            const fourCountryCodes = []
+            for (const number of flagRandomNumbers) {
+                fourCountryCodes.push(countryCode[number])
+            }
+            setFlagCountryCodes(fourCountryCodes)
+        }
+        
+        getFourRandomFlagCodes()
+        convertNumbersToFlagCodes()
 
-        getRandomFlagCode()
-        getRandomCorrectAnswer()
-        assignCorrectAnswer()
         return () => {
 
         }
     }, [attemptedQuestion])
-    console.log(correctAnswer)
-    console.log(correctAnswerChoice)
+    console.log(flagRandomNumbers)
+    console.log(flagCountryCodes)
+
 
     return (
         <div className='flex justify-center items-center h-full'>
@@ -330,7 +330,7 @@ const Game = () => {
                 {/* Flag */}
                 <div>
                     <img
-                        src={`https://flagcdn.com/${flagCountryCode}.svg`}
+                        // src={`https://flagcdn.com/${flagCountryCode}.svg`}
                         width="360"
                         className={`${gameStart === true && timeLeft === 0 ? '' : 'hidden'}`}
                     />
