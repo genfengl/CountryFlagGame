@@ -4,17 +4,11 @@ import { useState } from 'react'
 const Game = () => {
     const [gameStart, setGameStart] = useState(false)
     const [timeLeft, setTimeLeft] = useState(3)
-    const [flagRandomNumbers, setFlagRandomNumbers] = useState([])
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
-    const [attemptedQuestion, setAttemptedQuestion] = useState(0)
-    const [correctAnswerChoice, setCorrectAnswerChoice] = useState()
+    const [correctCountryCode, setCorrectCountryCode] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
-    const [answer0, setAnswer0] = useState()
-    const [answer1, setAnswer1] = useState()
-    const [answer2, setAnswer2] = useState()
-    const [answer3, setAnswer3] = useState()
-
-
+    const [attemptedQuestion, setAttemptedQuestion] = useState()
+    
     // Country Flag list with code for api requests
     // 249 key-value pairs in the object
     const countryList = {
@@ -272,8 +266,10 @@ const Game = () => {
 
     const handleStartButtonClick = () => {
         setGameStart(true)
+        setAttemptedQuestion(0)
     }
 
+    // a countdown timer for gamestart
     const gameStartTimer = setInterval(() => {
         if (gameStart === true && timeLeft > 0) {
             setTimeLeft(timeLeft - 1)
@@ -281,6 +277,7 @@ const Game = () => {
         }
     }, 1000)
 
+    // useEffect for each question
     useEffect(() => {
         // generate four unique random numbers from 0-248, store them in flagRandomNumbers state
         const getFourRandomFlagCodes = () => {
@@ -291,28 +288,59 @@ const Game = () => {
                     fourRandomNumbers.push(candidateInt)
                 }
             }
-            setFlagRandomNumbers([])
-            setFlagRandomNumbers(fourRandomNumbers)
+            return fourRandomNumbers
         }
         // convert the numbers in flagRandomNumbers to countryCodes, and store them in the flagCountryCodes state
-        const convertNumbersToFlagCodes = () => {
+        const convertNumbersToFlagCodes = (fourRandomNumbers) => {
             const fourCountryCodes = []
-            for (const number of flagRandomNumbers) {
+            for (const number of fourRandomNumbers) {
+                //? maybe find something to replace countryCode
                 fourCountryCodes.push(countryCode[number])
             }
-            setFlagCountryCodes(fourCountryCodes)
+            return fourCountryCodes
         }
+
+        // choose a correct code in the four country codes
+        const getCorrectCode = (fourCodes) => {
+            let correctChoice = Math.floor(Math.random() * 4)
+            return fourCodes[correctChoice]
+        }
+
+        // const convertCodesToNames = (fourCodes) => {
+        //     const fourCountryNames = []
+        //     for (const code of fourCodes) {
+        //         fourCountryNames.push(countryList[code])
+        //     }
+        //     return fourCountryNames
+        // }
+
+        // choose the correct answer, and convert the country code to country name
+        // const getCorrectCountryName = (fourCodes) => {
+        //     let correctChoice = Math.floor(Math.random() * 4)
+        //     return countryList[fourCodes[correctChoice]]
+        // }
+
+        // assign answers to 4 answer states
+
         
-        getFourRandomFlagCodes()
-        convertNumbersToFlagCodes()
+        const playGame = () => {
+            const fourNumbers = getFourRandomFlagCodes()
+            const fourCodes = convertNumbersToFlagCodes(fourNumbers)
+            const correctCode = getCorrectCode(fourCodes)
 
-        return () => {
-
+            setFlagCountryCodes(fourCodes)
+            setCorrectCountryCode(correctCode)
+            setCorrectAnswer(countryList[correctCode])
+            
+            
+            
         }
-    }, [attemptedQuestion])
-    console.log(flagRandomNumbers)
-    console.log(flagCountryCodes)
 
+        playGame()
+        
+    }, [attemptedQuestion])
+    console.log(flagCountryCodes)
+    console.log(correctCountryCode)
 
     return (
         <div className='flex justify-center items-center h-full'>
@@ -330,7 +358,7 @@ const Game = () => {
                 {/* Flag */}
                 <div>
                     <img
-                        // src={`https://flagcdn.com/${flagCountryCode}.svg`}
+                        src={`https://flagcdn.com/${correctCountryCode.toLowerCase()}.svg`}
                         width="360"
                         className={`${gameStart === true && timeLeft === 0 ? '' : 'hidden'}`}
                     />
@@ -338,16 +366,16 @@ const Game = () => {
                 {/* Answers */}
                 <div className='grid'>
                     <button>
-                        {answer0}
+                        {countryList[flagCountryCodes[0]]}
                     </button>
                     <button>
-                        {answer1}
+                        {countryList[flagCountryCodes[1]]}
                     </button>
                     <button>
-                        {answer2}
+                        {countryList[flagCountryCodes[2]]}
                     </button>
                     <button>
-                        {answer3}
+                        {countryList[flagCountryCodes[3]]}
                     </button>
                 </div>
             </div>
