@@ -37,8 +37,8 @@ const Game = () => {
         "BJ": "Benin",
         "BM": "Bermuda",
         "BT": "Bhutan",
-        "BO": "Bolivia (Plurinational State of)",
-        "BQ": "Bonaire, Sint Eustatius and Saba",
+        "BO": "Bolivia",
+        "BQ": "Bonaire",
         "BA": "Bosnia and Herzegovina",
         "BW": "Botswana",
         "BV": "Bouvet Island",
@@ -61,8 +61,8 @@ const Game = () => {
         "CC": "Cocos (Keeling) Islands",
         "CO": "Colombia",
         "KM": "Comoros",
-        "CD": "Congo (the Democratic Republic of the)",
-        "CG": "Congo",
+        "CD": "Democratic Republic of the Congo",
+        "CG": "Republic of the Congo",
         "CK": "Cook Islands",
         "CR": "Costa Rica",
         "HR": "Croatia",
@@ -83,7 +83,7 @@ const Game = () => {
         "EE": "Estonia",
         "SZ": "Eswatini",
         "ET": "Ethiopia",
-        "FK": "Falkland Islands [Malvinas]",
+        "FK": "Falkland Islands",
         "FO": "Faroe Islands",
         "FJ": "Fiji",
         "FI": "Finland",
@@ -116,7 +116,7 @@ const Game = () => {
         "IS": "Iceland",
         "IN": "India",
         "ID": "Indonesia",
-        "IR": "Iran (Islamic Republic of)",
+        "IR": "Iran",
         "IQ": "Iraq",
         "IE": "Ireland",
         "IM": "Isle of Man",
@@ -129,11 +129,11 @@ const Game = () => {
         "KZ": "Kazakhstan",
         "KE": "Kenya",
         "KI": "Kiribati",
-        "KP": "Korea (the Democratic People's Republic of)",
-        "KR": "Korea (the Republic of)",
+        "KP": "North Korea",
+        "KR": "South Korea",
         "KW": "Kuwait",
         "KG": "Kyrgyzstan",
-        "LA": "Lao People's Democratic Republic",
+        "LA": "Laos",
         "LV": "Latvia",
         "LB": "Lebanon",
         "LS": "Lesotho",
@@ -155,8 +155,8 @@ const Game = () => {
         "MU": "Mauritius",
         "YT": "Mayotte",
         "MX": "Mexico",
-        "FM": "Micronesia (Federated States of)",
-        "MD": "Moldova (the Republic of)",
+        "FM": "Micronesia",
+        "MD": "Moldova",
         "MC": "Monaco",
         "MN": "Mongolia",
         "ME": "Montenegro",
@@ -180,7 +180,7 @@ const Game = () => {
         "OM": "Oman",
         "PK": "Pakistan",
         "PW": "Palau",
-        "PS": "Palestine, State of",
+        "PS": "Palestine",
         "PA": "Panama",
         "PG": "Papua New Guinea",
         "PY": "Paraguay",
@@ -191,9 +191,9 @@ const Game = () => {
         "PT": "Portugal",
         "PR": "Puerto Rico",
         "QA": "Qatar",
-        "MK": "Republic of North Macedonia",
+        "MK": "North Macedonia",
         "RO": "Romania",
-        "RU": "Russian Federation",
+        "RU": "Russia",
         "RW": "Rwanda",
         "RE": "Réunion",
         "BL": "Saint Barthélemy",
@@ -251,7 +251,7 @@ const Game = () => {
         "UY": "Uruguay",
         "UZ": "Uzbekistan",
         "VU": "Vanuatu",
-        "VE": "Venezuela (Bolivarian Republic of)",
+        "VE": "Venezuela",
         "VN": "Viet Nam",
         "VG": "Virgin Islands (British)",
         "VI": "Virgin Islands (U.S.)",
@@ -277,6 +277,11 @@ const Game = () => {
         }
     }, 1000)
 
+    // increment attemptedQuestion when a answer button is clicked
+    const handleAnswerClick = () => {
+        setAttemptedQuestion(attemptedQuestion + 1)
+    }
+
     // useEffect for each question
     useEffect(() => {
         // generate four unique random numbers from 0-248, store them in flagRandomNumbers state
@@ -284,6 +289,7 @@ const Game = () => {
             const fourRandomNumbers = []
             while (fourRandomNumbers.length < 4) {
                 let candidateInt = Math.floor(Math.random() * countryCode.length)
+                // indexOf returns -1 if candidateINt is not already in fourRandomNumbers array
                 if (fourRandomNumbers.indexOf(candidateInt) === -1) {
                     fourRandomNumbers.push(candidateInt)
                 }
@@ -305,25 +311,8 @@ const Game = () => {
             let correctChoice = Math.floor(Math.random() * 4)
             return fourCodes[correctChoice]
         }
-
-        // const convertCodesToNames = (fourCodes) => {
-        //     const fourCountryNames = []
-        //     for (const code of fourCodes) {
-        //         fourCountryNames.push(countryList[code])
-        //     }
-        //     return fourCountryNames
-        // }
-
-        // choose the correct answer, and convert the country code to country name
-        // const getCorrectCountryName = (fourCodes) => {
-        //     let correctChoice = Math.floor(Math.random() * 4)
-        //     return countryList[fourCodes[correctChoice]]
-        // }
-
-        // assign answers to 4 answer states
-
         
-        const playGame = () => {
+        const createQuestion = () => {
             const fourNumbers = getFourRandomFlagCodes()
             const fourCodes = convertNumbersToFlagCodes(fourNumbers)
             const correctCode = getCorrectCode(fourCodes)
@@ -331,13 +320,11 @@ const Game = () => {
             setFlagCountryCodes(fourCodes)
             setCorrectCountryCode(correctCode)
             setCorrectAnswer(countryList[correctCode])
-            
-            
-            
+
         }
 
-        playGame()
-        
+        createQuestion()
+
     }, [attemptedQuestion])
     console.log(flagCountryCodes)
     console.log(correctCountryCode)
@@ -354,27 +341,32 @@ const Game = () => {
                 {timeLeft}
             </div>
             {/* The game itself */}
-            <div>
+            <div className={`${gameStart === true && timeLeft === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
                 {/* Flag */}
-                <div>
+                <div className='w-[360px] h-[360px] flex items-center'>
                     <img
-                        src={`https://flagcdn.com/${correctCountryCode.toLowerCase()}.svg`}
+                    // the code in src needs to be lowercase
+                        src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
                         width="360"
-                        className={`${gameStart === true && timeLeft === 0 ? '' : 'hidden'}`}
+                        
                     />
                 </div>
                 {/* Answers */}
-                <div className='grid'>
-                    <button>
+                <div className='grid grid-rows-2 grid-cols-2 gap-3 w-[640px]'>
+                    <button onClick={handleAnswerClick}
+                    className='h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[0]]}
                     </button>
-                    <button>
+                    <button onClick={handleAnswerClick}
+                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[1]]}
                     </button>
-                    <button>
+                    <button onClick={handleAnswerClick}
+                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[2]]}
                     </button>
-                    <button>
+                    <button onClick={handleAnswerClick}
+                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[3]]}
                     </button>
                 </div>
