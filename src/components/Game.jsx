@@ -2,13 +2,20 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 const Game = () => {
+    // states for the starting procedures
     const [gameStart, setGameStart] = useState(false)
-    const [timeLeft, setTimeLeft] = useState(3)
+    const [gameFinish, setGameFinish] = useState(true)
+    const [startCountdown, setStartCountdown] = useState(3)
+    const [startCountdownFinish, setStartCountdownFinish] = useState(false)
+    const [gameCountdown, setGameCountdown] = useState(60)
+
+    // states for the actual game itself
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [correctCountryCode, setCorrectCountryCode] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
-    const [attemptedQuestion, setAttemptedQuestion] = useState()
-    
+    const [score, setScore] = useState(0)
+    const [attemptedQuestion, setAttemptedQuestion] = useState(0)
+
     // Country Flag list with code for api requests
     // 249 key-value pairs in the object
     const countryList = {
@@ -264,22 +271,47 @@ const Game = () => {
     };
     const countryCode = Object.keys(countryList)
 
+    // start button click
     const handleStartButtonClick = () => {
         setGameStart(true)
+        setGameFinish(false)
+        setStartCountdown(3)
+        setGameCountdown(60)
         setAttemptedQuestion(0)
+        setScore(0)
     }
 
     // a countdown timer for gamestart
     const gameStartTimer = setInterval(() => {
-        if (gameStart === true && timeLeft > 0) {
-            setTimeLeft(timeLeft - 1)
+        if (gameStart === true && startCountdown > 0) {
+            setStartCountdown(startCountdown - 1)
             clearInterval(gameStartTimer)
+        }
+        if (gameStart === true && startCountdown === 0) {
+            setStartCountdownFinish(true)
         }
     }, 1000)
 
-    // increment attemptedQuestion when a answer button is clicked
-    const handleAnswerClick = () => {
-        setAttemptedQuestion(attemptedQuestion + 1)
+    // a countdown timer for the game itself: 60 seconds
+    const gameTimer = setInterval(() => {
+        if (gameStart === true && startCountdown === 0) {
+            setGameCountdown(gameCountdown - 1)
+            clearInterval(gameTimer)
+        }
+        if (gameStart === true && gameCountdown === 0) {
+            setGameStart(false)
+            setGameFinish(true)
+        }
+    }, 1000)
+
+    // increment attemptedQuestion when a answer button is clicked and check against correct answer
+    const handleAnswerClick = (e) => {
+        if (e.target.innerText === countryList[correctCountryCode]) {
+            setScore(score + 1)
+            setAttemptedQuestion(attemptedQuestion + 1)
+        } else {
+            setAttemptedQuestion(attemptedQuestion + 1)
+        }
     }
 
     // useEffect for each question
@@ -296,6 +328,7 @@ const Game = () => {
             }
             return fourRandomNumbers
         }
+
         // convert the numbers in flagRandomNumbers to countryCodes, and store them in the flagCountryCodes state
         const convertNumbersToFlagCodes = (fourRandomNumbers) => {
             const fourCountryCodes = []
@@ -311,7 +344,7 @@ const Game = () => {
             let correctChoice = Math.floor(Math.random() * 4)
             return fourCodes[correctChoice]
         }
-        
+
         const createQuestion = () => {
             const fourNumbers = getFourRandomFlagCodes()
             const fourCodes = convertNumbersToFlagCodes(fourNumbers)
@@ -320,53 +353,56 @@ const Game = () => {
             setFlagCountryCodes(fourCodes)
             setCorrectCountryCode(correctCode)
             setCorrectAnswer(countryList[correctCode])
-
         }
 
         createQuestion()
 
     }, [attemptedQuestion])
-    console.log(flagCountryCodes)
-    console.log(correctCountryCode)
 
     return (
-        <div className='flex justify-center items-center h-full'>
+        <div className='flex flex-col my-6 gap-3 justify-center items-center h-full'>
             <button onClick={handleStartButtonClick}
                 className={`p-3 m-6 text-2xl font-bold border rounded-xl ${gameStart ? 'hidden' : ''}
             hover:bg-slate-700 hover:scale-105`}>
                 Start
             </button>
-            <div className={`text-5xl ${gameStart && timeLeft > 0 ? '' : 'hidden'} 
+            <div className={`text-5xl h-[360px] flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
             animate-ping animation-delay-100`}>
-                {timeLeft}
+                {startCountdown}
+            </div>
+            <div className={`text-5xl flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                {gameCountdown}
+            </div>
+            <div className='text-5xl'>
+                {score}
             </div>
             {/* The game itself */}
-            <div className={`${gameStart === true && timeLeft === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
+            <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
                 {/* Flag */}
                 <div className='w-[360px] h-[360px] flex items-center'>
                     <img
-                    // the code in src needs to be lowercase
+                        // the code in src needs to be lowercase
                         src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
                         width="360"
-                        
+
                     />
                 </div>
                 {/* Answers */}
                 <div className='grid grid-rows-2 grid-cols-2 gap-3 w-[640px]'>
                     <button onClick={handleAnswerClick}
-                    className='h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className='h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[0]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[1]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[2]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                    className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
                         {countryList[flagCountryCodes[3]]}
                     </button>
                 </div>
