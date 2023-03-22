@@ -6,6 +6,14 @@
   .animation-delay-100 {
     animation-delay: 0.1s;
   }
+
+  .correctAnswer {
+    background-color: green;
+  }
+
+  .wrongAnswer {
+    background-color: crimson;
+  }
 }
 
 :root {

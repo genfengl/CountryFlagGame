@@ -13,9 +13,17 @@ const Game = () => {
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [correctCountryCode, setCorrectCountryCode] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
+
     const [score, setScore] = useState(0)
     const [attemptedQuestion, setAttemptedQuestion] = useState(0)
 
+    // states for background color effect of answers
+    const [answerIncorrect, setAnswerIncorrect] = useState([
+        0, 0, 0, 0
+    ])
+    const [answerCorrect, setAnswerCorrect] = useState([
+        0, 0, 0, 0
+    ])
     // Country Flag list with code for api requests
     // 249 key-value pairs in the object
     const countryList = {
@@ -307,10 +315,41 @@ const Game = () => {
     // increment attemptedQuestion when a answer button is clicked and check against correct answer
     const handleAnswerClick = (e) => {
         if (e.target.innerText === countryList[correctCountryCode]) {
+            const nextArray = answerCorrect.map((answer, i) => {
+                if (i === Number(e.target.dataset.id)) {
+                    return answer + 1
+                } else {
+                    return answer
+                }
+            })
+            setAnswerCorrect(nextArray)
             setScore(score + 1)
-            setAttemptedQuestion(attemptedQuestion + 1)
+            const answerDelay = setInterval(() => {
+                const nextArray = answerCorrect.map((answer) => {
+                    return 0
+                })
+                setAnswerCorrect(nextArray)
+                setAttemptedQuestion(attemptedQuestion + 1)
+                clearInterval(answerDelay)
+            }, 300)
+
         } else {
-            setAttemptedQuestion(attemptedQuestion + 1)
+            const nextArray = answerIncorrect.map((answer, i) => {
+                if (i === Number(e.target.dataset.id)) {
+                    return answer + 1
+                } else {
+                    return answer
+                }
+            })
+            setAnswerIncorrect(nextArray)
+            const answerDelay = setInterval(() => {
+                const nextArray = answerIncorrect.map((answer) => {
+                    return 0
+                })
+                setAnswerIncorrect(nextArray)
+                setAttemptedQuestion(attemptedQuestion + 1)
+                clearInterval(answerDelay)
+            }, 300)
         }
     }
 
@@ -356,25 +395,33 @@ const Game = () => {
         }
 
         createQuestion()
-
+        console.log(gameCountdown)
     }, [attemptedQuestion])
 
     return (
         <div className='flex flex-col my-6 gap-3 justify-center items-center h-full'>
+            {/* START button */}
             <button onClick={handleStartButtonClick}
                 className={`p-3 m-6 text-2xl font-bold border rounded-xl ${gameStart ? 'hidden' : ''}
             hover:bg-slate-700 hover:scale-105`}>
-                Start
+                START
             </button>
+            {/* Gamestart countdown timer */}
             <div className={`text-5xl h-[360px] flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
             animate-ping animation-delay-100`}>
                 {startCountdown}
             </div>
+            {/* Game countdown timer */}
             <div className={`text-5xl flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
                 {gameCountdown}
             </div>
-            <div className='text-5xl'>
+            {/* Score */}
+            <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
                 {score}
+            </div>
+            {/* End of game report */}
+            <div className={`text-5xl ${gameFinish ? '' : 'hidden'}`}>
+                YOUR SCORE: {score}
             </div>
             {/* The game itself */}
             <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
@@ -390,19 +437,27 @@ const Game = () => {
                 {/* Answers */}
                 <div className='grid grid-rows-2 grid-cols-2 gap-3 w-[640px]'>
                     <button onClick={handleAnswerClick}
-                        className='h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className={`h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl 
+                        ${answerCorrect[0] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[0] === 1 ? 'bg-red-500' : ''} `}
+                        data-id='0'>
                         {countryList[flagCountryCodes[0]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
+                        ${answerCorrect[1] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[1] === 1 ? 'bg-red-500' : ''} `}
+                        data-id='1'>
                         {countryList[flagCountryCodes[1]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
+                        ${answerCorrect[2] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[2] === 1 ? 'bg-red-500' : ''} `}
+                        data-id='2'>
                         {countryList[flagCountryCodes[2]]}
                     </button>
                     <button onClick={handleAnswerClick}
-                        className='p-3 text-xl font-bold border-1 border border-white rounded-2xl hover:bg-sky-500'>
+                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
+                        ${answerCorrect[3] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[3] === 1 ? 'bg-red-500' : ''} `}
+                        data-id='3'>
                         {countryList[flagCountryCodes[3]]}
                     </button>
                 </div>
