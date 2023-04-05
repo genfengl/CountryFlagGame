@@ -7,6 +7,7 @@ import Register from './components/Register'
 import Lobby from './components/Lobby'
 import Navbar from './components/Navbar'
 import Game from './components/Game'
+import Leaderboard from './components/Leaderboard'
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/lobby' element={<ProtectedRoute>
             <Lobby />
+          </ProtectedRoute>} />
+          <Route path='/leaderboard/:uid' element={<ProtectedRoute>
+            <Leaderboard />
           </ProtectedRoute>} />
           <Route path='/game/:uid' element={<ProtectedRoute>
             <Game />

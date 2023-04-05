@@ -42,7 +42,7 @@ const Lobby = () => {
         <div>
             <div className='flex flex-col my-24 m-auto max-w-[1280px]'>
                 {/* Greetings with the current username displayed */}
-                <div className='text-5xl py-6'>
+                <div className='text-5xl py-12'>
                     WELCOME BACK, {currentDisplayName}!
                 </div>
                 {/* the buttons */}
@@ -52,7 +52,8 @@ const Lobby = () => {
                         className='col-span-2 row-span-2 p-6 border rounded-xl text-2xl aspect-square'>
                         Play Now
                     </button>
-                    <button className='p-6 border rounded-xl text-2xl aspect-square'>
+                    <button onClick={() => navigate(`/leaderboard/${currentUser.uid}`)}
+                    className='p-6 border rounded-xl text-2xl aspect-square'>
                         Leaderboard
                     </button>
                     <button onClick={handleLogoutClick}
