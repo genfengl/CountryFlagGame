@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/register' element={<Register />} />

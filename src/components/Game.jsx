@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Game = () => {
+    // user information from AuthContext
+    const { currentUser, currentDisplayName } = useContext(AuthContext)
     // states for the starting procedures
     const [gameStart, setGameStart] = useState(false)
     const [gameFinish, setGameFinish] = useState(true)
+    const [firstGame, setFirstGame] = useState(true)
     const [startCountdown, setStartCountdown] = useState(3)
     const [startCountdownFinish, setStartCountdownFinish] = useState(false)
     const [gameCountdown, setGameCountdown] = useState(60)
@@ -13,6 +17,7 @@ const Game = () => {
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [correctCountryCode, setCorrectCountryCode] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
+
 
     const [score, setScore] = useState(0)
     const [attemptedQuestion, setAttemptedQuestion] = useState(0)
@@ -283,6 +288,7 @@ const Game = () => {
     const handleStartButtonClick = () => {
         setGameStart(true)
         setGameFinish(false)
+        setFirstGame(false)
         setStartCountdown(3)
         setGameCountdown(60)
         setAttemptedQuestion(0)
@@ -384,6 +390,7 @@ const Game = () => {
             return fourCodes[correctChoice]
         }
 
+        // creates the 4 answers and determine the correct answer for each question
         const createQuestion = () => {
             const fourNumbers = getFourRandomFlagCodes()
             const fourCodes = convertNumbersToFlagCodes(fourNumbers)
@@ -422,8 +429,11 @@ const Game = () => {
                 {score}
             </div>
             {/* End of game report */}
-            <div className={`text-5xl ${gameFinish ? '' : 'hidden'}`}>
-                YOUR SCORE: {score}
+            <div className={`${gameFinish && firstGame === false ? '' : 'hidden'}
+            text-5xl absolute flex flex-col items-center w-96 h-96 translate-y-24 bg-black `}>
+                <div>Well done! {currentDisplayName}</div>
+                <div>YOU GOT {score} POINTS!</div>
+                <button></button>
             </div>
             {/* The game itself */}
             <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
@@ -433,7 +443,6 @@ const Game = () => {
                         // the code in src needs to be lowercase
                         src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
                         width="360"
-
                     />
                 </div>
                 {/* Answers */}
