@@ -396,6 +396,8 @@ const Game = () => {
 
         createQuestion()
         console.log(gameCountdown)
+        console.log(attemptedQuestion)
+        console.log(score)
     }, [attemptedQuestion])
 
     return (
