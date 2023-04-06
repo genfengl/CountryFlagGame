@@ -5,7 +5,17 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        infiniteSlide: {
+          '0%': { transform: 'translateX(0%)'},
+          '100%': {transform: 'translateX(-2400px)'}
+        }
+      },
+      animation: {
+        infiniteSlide: 'infiniteSlide 20s linear infinite'
+      }
+    },
   },
   plugins: [],
 }

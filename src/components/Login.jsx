@@ -5,7 +5,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 
-const Login = () => {
+const Login = ({ countryList }) => {
+
+    const countryCodes = Object.keys(countryList)
+    // console.log(countryCodes)
     const { currentUser } = useContext(AuthContext)
 
     const initialState = {
@@ -17,6 +20,7 @@ const Login = () => {
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
+    //  Controlled login input field
     const handleLoginChange = (event) => {
         const { name, value } = event.target
         setLoginFields({
@@ -25,6 +29,7 @@ const Login = () => {
         })
     }
 
+    // Login function
     const handleLoginSubmit = async (event) => {
         event.preventDefault()
         const email = event.target[0].value
@@ -39,12 +44,54 @@ const Login = () => {
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
         navigate('/lobby')
-        
+
     }
     // console.log(currentUser.uid)
+
+    // Generate array of flags for animation
+    const animationFlags = () => {
+        const flagCodes = []
+        while (flagCodes.length < 30) {
+            let candidateInt = Math.floor(Math.random() * countryCodes.length)
+            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1 && countryCodes[candidateInt] !== 'CH') {
+                flagCodes.push(countryCodes[candidateInt])
+            }
+        }
+        return flagCodes
+    }
+
+    // Generate the an array of flag img components
+    const topFlagsComponents = () => {
+        const topFlagCodes = animationFlags()
+        const flags = []
+        for (let i = 0; i < 2; i++) {
+            topFlagCodes.forEach((flagCode) => {
+                flags.push(
+                    <img
+                        src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
+                        srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
+                        width="80"
+                        alt={countryList[flagCode]} 
+                        className='h-[60px] object-fit'/>
+                )
+            })
+        }
+        console.log(topFlagCodes)
+        return flags
+    }
+
+    topFlagsComponents()
+
     return (
         // Flex container
-        <div className='grid h-screen'>
+        <div className='grid grid-rows-3 h-screen'>
+            {/* Top animation bar */}
+            <div className='flex overflow-hidden'>
+                <div className='flex  animate-infiniteSlide '>
+                    {topFlagsComponents()}
+                </div>
+            </div>
+
             {/* Login container */}
             <div className='flex flex-col gap-3 justify-center items-center justify-self-center self-center border-2 rounded-xl p-6'>
                 {/* Main title */}
