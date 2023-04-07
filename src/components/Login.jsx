@@ -53,7 +53,8 @@ const Login = ({ countryList }) => {
         const flagCodes = []
         while (flagCodes.length < 30) {
             let candidateInt = Math.floor(Math.random() * countryCodes.length)
-            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1 && countryCodes[candidateInt] !== 'CH') {
+            // do not include CH: Switzerland or NP: Nepal because the flag size is different
+            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1 && countryCodes[candidateInt] !== ('CH' | 'NP' | 'VA')) {
                 flagCodes.push(countryCodes[candidateInt])
             }
         }
