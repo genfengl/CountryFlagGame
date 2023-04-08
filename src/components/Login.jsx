@@ -48,47 +48,76 @@ const Login = ({ countryList }) => {
     }
     // console.log(currentUser.uid)
 
-    // Generate array of flags for animation
-    const animationFlags = () => {
+    // Generate array of flags for top animation bar
+    const topAnimationFlags = () => {
         const flagCodes = []
-        while (flagCodes.length < 30) {
+        while (flagCodes.length < 60) {
             let candidateInt = Math.floor(Math.random() * countryCodes.length)
             // do not include CH: Switzerland or NP: Nepal because the flag size is different
-            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1 && countryCodes[candidateInt] !== ('CH' | 'NP' | 'VA')) {
+            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
+
                 flagCodes.push(countryCodes[candidateInt])
+
+
             }
         }
         return flagCodes
     }
+    const sixtyFlagCodes = topAnimationFlags()
 
-    // Generate the an array of flag img components
+    // Generate the an array of flag img components for top animation bar
     const topFlagsComponents = () => {
-        const topFlagCodes = animationFlags()
+        const topFlagCodes = sixtyFlagCodes
         const flags = []
         for (let i = 0; i < 2; i++) {
             topFlagCodes.forEach((flagCode) => {
-                flags.push(
-                    <img
-                        src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
-                        srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
-                        width="80"
-                        alt={countryList[flagCode]} 
-                        className='h-[60px] object-fit'/>
-                )
+                if (topFlagCodes.indexOf(flagCode) < 30) {
+                    flags.push(
+                        <div className='h-[60px] w-[80px]'>
+                            <img
+                                src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
+                                srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
+                                width="80"
+                                alt={countryList[flagCode]}
+                                className='w-full h-full' />
+                        </div>
+                    )
+                }
             })
         }
-        console.log(topFlagCodes)
         return flags
     }
 
-    topFlagsComponents()
+    // Generate the array of flag img components for bot animation bar
+    const botFlagsComponents = () => {
+        const botFlagCodes = sixtyFlagCodes
+        const flags = []
+        for (let i = 0; i < 2; i++) {
+            botFlagCodes.forEach((flagCode) => {
+                if (botFlagCodes.indexOf(flagCode) >= 30) {
+                    flags.push(
+                        <div className='w-[80px] h-[60px]'>
+                            <img
+                                src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
+                                srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
+                                width="80"
+                                alt={countryList[flagCode]}
+                                className='w-full h-full'
+                            />
+                        </div>
+                    )
+                }
+            })
+        }
+        return flags
+    }
 
     return (
         // Flex container
         <div className='grid grid-rows-3 h-screen'>
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
-                <div className='flex  animate-infiniteSlide '>
+                <div className='flex  animate-topInfiniteSlide '>
                     {topFlagsComponents()}
                 </div>
             </div>
@@ -128,6 +157,12 @@ const Login = ({ countryList }) => {
                             New Player? <Link to="/register" className='underline'>Register</Link>
                         </div>
                     </form>
+                </div>
+            </div>
+            {/* Top animation bar */}
+            <div className='flex items-end overflow-hidden'>
+                <div className='flex  animate-botInfiniteSlide '>
+                    {botFlagsComponents()}
                 </div>
             </div>
 

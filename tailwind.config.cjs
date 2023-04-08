@@ -7,13 +7,18 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        infiniteSlide: {
+        topInfiniteSlide: {
           '0%': { transform: 'translateX(0%)'},
           '100%': {transform: 'translateX(-2400px)'}
+        },
+        botInfiniteSlide: {
+          '0%': { transform: 'translateX(-2400px)'},
+          '100%': {transform: 'translateX(0%)'}
         }
       },
       animation: {
-        infiniteSlide: 'infiniteSlide 20s linear infinite'
+        topInfiniteSlide: 'topInfiniteSlide 20s linear infinite',
+        botInfiniteSlide: 'botInfiniteSlide 20s linear infinite',
       }
     },
   },
