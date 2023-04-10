@@ -6,6 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        mainText: '#242424',
+        mainBackground: 'rgba(255, 255, 255, 0.87)'
+      },
+
       keyframes: {
         topInfiniteSlide: {
           '0%': { transform: 'translateX(0%)'},
@@ -17,8 +22,8 @@ module.exports = {
         }
       },
       animation: {
-        topInfiniteSlide: 'topInfiniteSlide 20s linear infinite',
-        botInfiniteSlide: 'botInfiniteSlide 20s linear infinite',
+        topInfiniteSlide: 'topInfiniteSlide 30s linear infinite',
+        botInfiniteSlide: 'botInfiniteSlide 30s linear infinite',
       }
     },
   },

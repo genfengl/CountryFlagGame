@@ -1,6 +1,6 @@
 import { auth } from '../Firebase-config'
 import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
@@ -10,6 +10,7 @@ const Login = ({ countryList }) => {
     const countryCodes = Object.keys(countryList)
     // console.log(countryCodes)
     const { currentUser } = useContext(AuthContext)
+    
 
     const initialState = {
         username: '',
@@ -20,6 +21,8 @@ const Login = ({ countryList }) => {
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
+    const [sixtyFlagCodes, setSixtyFlagCodes] = useState([])
+
     //  Controlled login input field
     const handleLoginChange = (event) => {
         const { name, value } = event.target
@@ -28,6 +31,26 @@ const Login = ({ countryList }) => {
             [name]: value
         })
     }
+    // using useEffect hook here so that the sixtyFlagCodes only renders once
+    useEffect(() => {
+        // Generate array of flags for top animation bar
+        const topAnimationFlags = () => {
+            const flagCodes = []
+            while (flagCodes.length < 60) {
+                let candidateInt = Math.floor(Math.random() * countryCodes.length)
+                // do not include CH: Switzerland or NP: Nepal because the flag size is different
+                if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
+                    flagCodes.push(countryCodes[candidateInt])
+                }
+            }
+            return setSixtyFlagCodes(flagCodes)
+        }
+        topAnimationFlags()
+
+        return () => {
+            
+        }
+    }, [])
 
     // Login function
     const handleLoginSubmit = async (event) => {
@@ -47,24 +70,6 @@ const Login = ({ countryList }) => {
 
     }
     // console.log(currentUser.uid)
-
-    // Generate array of flags for top animation bar
-    const topAnimationFlags = () => {
-        const flagCodes = []
-        while (flagCodes.length < 60) {
-            let candidateInt = Math.floor(Math.random() * countryCodes.length)
-            // do not include CH: Switzerland or NP: Nepal because the flag size is different
-            if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
-
-                flagCodes.push(countryCodes[candidateInt])
-
-
-            }
-        }
-        return flagCodes
-    }
-    const sixtyFlagCodes = topAnimationFlags()
-
     // Generate the an array of flag img components for top animation bar
     const topFlagsComponents = () => {
         const topFlagCodes = sixtyFlagCodes
@@ -112,9 +117,10 @@ const Login = ({ countryList }) => {
         return flags
     }
 
+
     return (
         // Flex container
-        <div className='grid grid-rows-3 h-screen'>
+        <div className='grid grid-rows-[auto_1fr_auto] h-screen'>
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
                 <div className='flex  animate-topInfiniteSlide '>
@@ -123,40 +129,45 @@ const Login = ({ countryList }) => {
             </div>
 
             {/* Login container */}
-            <div className='flex flex-col gap-3 justify-center items-center justify-self-center self-center border-2 rounded-xl p-6'>
-                {/* Main title */}
-                <div className='flex flex-col p-3 items-center gap-3'>
-                    <div className='text-3xl font-bold'>
-                        Guessing Flags
-                    </div>
-                    <div>
-                        Become a country flag trivia champion!
-                    </div>
-
-                </div>
-                {/* Linebreak */}
-                <div className='bg-white h-1 w-full'>
-
-                </div>
-                {/* Login Form */}
-                <div className='flex flex-col gap-3 p-6 items-center'>
-
-                    <form className='flex flex-col gap-6 w-72' onSubmit={handleLoginSubmit}    >
-
-                        <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
-                            className="p-2 rounded-lg" />
-                        <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
-                            className="p-2 rounded-lg" />
-                        {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
-
-                        {/* Login button */}
-                        <label className='flex flex-col'>
-                            <input type="submit" value="LOGIN" className='p-2 rounded-lg border-2' />
-                        </label>
-                        <div>
-                            New Player? <Link to="/register" className='underline'>Register</Link>
+            <div className="flex justify-center
+            bg-[url('/Login_Background.png')] bg-cover">
+                <div className="flex flex-col gap-3 justify-center items-center justify-self-center self-center border-0 rounded-xl p-6
+                bg-gradient-to-br from-sky-500 to-indigo-400">
+                    {/* Main title */}
+                    <div className='flex flex-col p-3 items-center gap-3'>
+                        <div className='text-3xl font-bold'>
+                            Guessing Flags
                         </div>
-                    </form>
+                        <div>
+                            Become a country flag trivia champion!
+                        </div>
+
+                    </div>
+                    {/* Linebreak */}
+                    <div className='bg-[#242424] h-1 w-72'>
+
+                    </div>
+                    {/* Login Form */}
+                    <div className='flex flex-col gap-3 p-6 items-center'>
+
+                        <form className='flex flex-col gap-6 w-72' onSubmit={handleLoginSubmit}    >
+
+                            <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
+                                className="p-2 rounded-lg" />
+                            <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
+                                className="p-2 rounded-lg" />
+                            {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
+
+                            {/* Login button */}
+                            <label className='flex flex-col'>
+                                <input type="submit" value="LOGIN" className='p-2 rounded-lg border-0 border-mainText bg-mainText text-mainBackground
+                                hover:bg-slate-700 hover:scale-105 focus:bg-slate-500 focus:scale-100 transition-all' />
+                            </label>
+                            <div>
+                                New Player? <Link to="/register" className='underline'>Register</Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             {/* Top animation bar */}
