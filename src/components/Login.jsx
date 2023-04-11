@@ -4,14 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
+import TopAnimationBar from './TopAnimationBar'
+import BotAnimationBar from './BotAnimationBar'
 
-const Login = ({ countryList }) => {
-
-    const countryCodes = Object.keys(countryList)
-    // console.log(countryCodes)
-    const { currentUser } = useContext(AuthContext)
-    
-
+const Login = ({ countryList, sixtyFlagCodes }) => {
     const initialState = {
         username: '',
         password: ''
@@ -21,7 +17,7 @@ const Login = ({ countryList }) => {
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
-    const [sixtyFlagCodes, setSixtyFlagCodes] = useState([])
+    // const [sixtyFlagCodes, setSixtyFlagCodes] = useState([])
 
     //  Controlled login input field
     const handleLoginChange = (event) => {
@@ -31,26 +27,6 @@ const Login = ({ countryList }) => {
             [name]: value
         })
     }
-    // using useEffect hook here so that the sixtyFlagCodes only renders once
-    useEffect(() => {
-        // Generate array of flags for top animation bar
-        const topAnimationFlags = () => {
-            const flagCodes = []
-            while (flagCodes.length < 60) {
-                let candidateInt = Math.floor(Math.random() * countryCodes.length)
-                // do not include CH: Switzerland or NP: Nepal because the flag size is different
-                if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
-                    flagCodes.push(countryCodes[candidateInt])
-                }
-            }
-            return setSixtyFlagCodes(flagCodes)
-        }
-        topAnimationFlags()
-
-        return () => {
-            
-        }
-    }, [])
 
     // Login function
     const handleLoginSubmit = async (event) => {
@@ -67,56 +43,7 @@ const Login = ({ countryList }) => {
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
         navigate('/lobby')
-
     }
-    // console.log(currentUser.uid)
-    // Generate the an array of flag img components for top animation bar
-    const topFlagsComponents = () => {
-        const topFlagCodes = sixtyFlagCodes
-        const flags = []
-        for (let i = 0; i < 2; i++) {
-            topFlagCodes.forEach((flagCode) => {
-                if (topFlagCodes.indexOf(flagCode) < 30) {
-                    flags.push(
-                        <div className='h-[60px] w-[80px]'>
-                            <img
-                                src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
-                                srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
-                                width="80"
-                                alt={countryList[flagCode]}
-                                className='w-full h-full' />
-                        </div>
-                    )
-                }
-            })
-        }
-        return flags
-    }
-
-    // Generate the array of flag img components for bot animation bar
-    const botFlagsComponents = () => {
-        const botFlagCodes = sixtyFlagCodes
-        const flags = []
-        for (let i = 0; i < 2; i++) {
-            botFlagCodes.forEach((flagCode) => {
-                if (botFlagCodes.indexOf(flagCode) >= 30) {
-                    flags.push(
-                        <div className='w-[80px] h-[60px]'>
-                            <img
-                                src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
-                                srcset={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
-                                width="80"
-                                alt={countryList[flagCode]}
-                                className='w-full h-full'
-                            />
-                        </div>
-                    )
-                }
-            })
-        }
-        return flags
-    }
-
 
     return (
         // Flex container
@@ -124,7 +51,7 @@ const Login = ({ countryList }) => {
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
                 <div className='flex animate-topInfiniteSlide '>
-                    {topFlagsComponents()}
+                    <TopAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
                 </div>
             </div>
 
@@ -177,7 +104,7 @@ const Login = ({ countryList }) => {
             {/* Top animation bar */}
             <div className='flex items-end overflow-hidden'>
                 <div className='flex  animate-botInfiniteSlide '>
-                    {botFlagsComponents()}
+                    <BotAnimationBar sixtyFlagCodes={sixtyFlagCodes}/>
                 </div>
             </div>
 

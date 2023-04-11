@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import { AuthContext } from './contexts/AuthContext'
 import './App.css'
@@ -264,23 +264,48 @@ function App() {
       "AX": "Åland Islands"
     }
   )
+  const [sixtyFlagCodes, setSixtyFlagCodes] = useState()
   const { currentUser } = useContext(AuthContext)
+
+  
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/" />
+      return <Navigate to="/login" />
     }
     return children
   }
+
+  useEffect(() => {
+    // Generate array of flags for top animation bar
+    const topAnimationFlags = () => {
+      const countryCodes = Object.keys(countryList)
+      const flagCodes = []
+      while (flagCodes?.length < 60) {
+        let candidateInt = Math.floor(Math.random() * countryCodes.length)
+        // do not include CH: Switzerland or NP: Nepal because the flag size is different
+        if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
+          flagCodes.push(countryCodes[candidateInt])
+        }
+      }
+      return setSixtyFlagCodes(flagCodes)
+    }
+    topAnimationFlags()
+    // console.log(countryCodes)
+    return () => {
+
+    }
+  }, [])
+  
 
   return (
     <div className="App">
       <BrowserRouter>
         {/* <Navbar /> */}
         <Routes>
-          <Route path='/' element={<Login countryList={countryList}/>} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/lobby' element={<ProtectedRoute>
+          <Route path='/login' element={<Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />} />
+          <Route path='/register' element={<Register sixtyFlagCodes={sixtyFlagCodes} />} />
+          <Route path='/' element={<ProtectedRoute>
             <Lobby />
           </ProtectedRoute>} />
           <Route path='/leaderboard/:uid' element={<ProtectedRoute>
