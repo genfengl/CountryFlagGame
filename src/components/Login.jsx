@@ -123,18 +123,23 @@ const Login = ({ countryList }) => {
         <div className='grid grid-rows-[auto_1fr_auto] h-screen'>
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
-                <div className='flex  animate-topInfiniteSlide '>
+                <div className='flex animate-topInfiniteSlide '>
                     {topFlagsComponents()}
                 </div>
             </div>
 
             {/* Login container */}
-            <div className="flex justify-center
-            bg-[url('/Login_Background.png')] bg-cover">
-                <div className="flex flex-col gap-3 justify-center items-center justify-self-center self-center border-0 rounded-xl p-6
-                bg-gradient-to-br from-sky-500 to-indigo-400">
+            <div className="flex justify-center 
+            bg-[url('/Login_Background.png')] bg-cover
+            ">
+                {/* login component with ::before pseudo element for bg gradient with transition on hover */}
+                <div className="flex relative flex-col gap-3 justify-center items-center justify-self-center self-center 
+                border-2 border-mainText rounded-xl p-6
+                before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
+                before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
+                ">
                     {/* Main title */}
-                    <div className='flex flex-col p-3 items-center gap-3'>
+                    <div className='flex flex-col p-3 items-center gap-3 z-10 '>
                         <div className='text-3xl font-bold'>
                             Guessing Flags
                         </div>
@@ -144,25 +149,24 @@ const Login = ({ countryList }) => {
 
                     </div>
                     {/* Linebreak */}
-                    <div className='bg-[#242424] h-1 w-72'>
+                    <div className='bg-[#242424] h-1 w-72 z-10'>
 
                     </div>
                     {/* Login Form */}
-                    <div className='flex flex-col gap-3 p-6 items-center'>
-
+                    <div className="flex flex-col gap-3 p-6 items-center z-10
+                    ">
                         <form className='flex flex-col gap-6 w-72' onSubmit={handleLoginSubmit}    >
-
                             <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
                                 className="p-2 rounded-lg" />
                             <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
                                 className="p-2 rounded-lg" />
-                            {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
-
+                            {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>} 
                             {/* Login button */}
                             <label className='flex flex-col'>
                                 <input type="submit" value="LOGIN" className='p-2 rounded-lg border-0 border-mainText bg-mainText text-mainBackground
                                 hover:bg-slate-700 hover:scale-105 focus:bg-slate-500 focus:scale-100 transition-all' />
                             </label>
+                            {/* Link to the register page for new account */}
                             <div>
                                 New Player? <Link to="/register" className='underline'>Register</Link>
                             </div>
