@@ -60,7 +60,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                 totalAttemptedQuestions: 0,
                 totalAccuracy: 0,
             })
-            navigate('/' + res.user.uid)
+            navigate('/')
         } catch (error) {
             setError(true)
             console.log('unsuccessful. Error Message:', error.message)

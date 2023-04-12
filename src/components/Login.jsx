@@ -38,13 +38,13 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
 
         await setPersistence(auth, browserSessionPersistence)
             .then(() => {
-                return signInWithEmailAndPassword(auth, email, password)
+                return signInWithEmailAndPassword(auth, email, password) 
             })
             .catch((error) => {
                 setError(true)
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
-        navigate('/' + currentUser.uid)
+        navigate('/')
     }
 
     return (
