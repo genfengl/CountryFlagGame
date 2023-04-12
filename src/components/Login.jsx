@@ -8,6 +8,7 @@ import TopAnimationBar from './TopAnimationBar'
 import BotAnimationBar from './BotAnimationBar'
 
 const Login = ({ countryList, sixtyFlagCodes }) => {
+    const { currentUser, currentDisplayName } = useContext(AuthContext)
     const initialState = {
         username: '',
         password: ''
@@ -15,6 +16,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
 
     const [loginFields, setLoginFields] = useState(initialState)
     const [error, setError] = useState(false)
+    
     const navigate = useNavigate()
 
     // const [sixtyFlagCodes, setSixtyFlagCodes] = useState([])
@@ -42,7 +44,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                 setError(true)
                 console.log('error code: ' + error.code + ' error message: ' + error.message)
             })
-        navigate('/lobby')
+        navigate('/' + currentUser.uid)
     }
 
     return (
@@ -87,11 +89,11 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                                 className="p-2 rounded-lg" />
                             <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
                                 className="p-2 rounded-lg" />
-                            {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>} 
+                            {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
                             {/* Login button */}
                             <label className='flex flex-col'>
                                 <input type="submit" value="LOGIN" className='p-2 rounded-lg border-0 border-mainText bg-mainText text-mainBackground
-                                hover:bg-slate-700 hover:scale-105 focus:bg-slate-500 focus:scale-100 transition-all' />
+                                hover:bg-slate-700 hover:scale-105 active:bg-slate-500 active:scale-100 transition-all' />
                             </label>
                             {/* Link to the register page for new account */}
                             <div>
@@ -104,7 +106,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
             {/* Top animation bar */}
             <div className='flex items-end overflow-hidden'>
                 <div className='flex  animate-botInfiniteSlide '>
-                    <BotAnimationBar sixtyFlagCodes={sixtyFlagCodes}/>
+                    <BotAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
                 </div>
             </div>
 

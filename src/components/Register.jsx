@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../Firebase-config'
@@ -7,17 +6,24 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../Firebase-config'
 import TopAnimationBar from './TopAnimationBar'
 import BotAnimationBar from './BotAnimationBar'
+import FlagProfilePicSelection from './FlagProfilePicSelection'
+import { MdOutlineAddCircleOutline } from 'react-icons/md'
 
-const Register = ({ sixtyFlagCodes }) => {
+const Register = ({ sixtyFlagCodes, countryList }) => {
     const initialState = {
         username: '',
         password: '',
         confirmPassword: '',
     }
 
+    // States for register form
     const [registerFields, setRegisterFields] = useState(initialState)
     const [error, setError] = useState(false)
     const navigate = useNavigate()
+
+    // States for displaying profile flag selection
+    const [showFlagSelection, setShowFlagSelection] = useState(false)
+    const [selectedFlagProfile, setSelectedFlagProfile] = useState('')
 
     const handleRegisterChange = (event) => {
         const { name, value } = event.target
@@ -34,6 +40,8 @@ const Register = ({ sixtyFlagCodes }) => {
         const email = event.target[1].value
         const password = event.target[2].value
         const confirmPassword = event.target[3].value
+        const profileFlagCode = selectedFlagProfile
+        console.log(event.target)
         if (password !== confirmPassword) {
             return setError(true)
         }
@@ -46,17 +54,31 @@ const Register = ({ sixtyFlagCodes }) => {
                 uid: res.user.uid,
                 displayName: displayName,
                 email: email,
+                profileFlagCode: profileFlagCode,
                 highestScore: 0,
                 totalCorrectAnswers: 0,
                 totalAttemptedQuestions: 0,
                 totalAccuracy: 0,
             })
-            navigate('/game')
+            navigate('/' + res.user.uid)
         } catch (error) {
             setError(true)
-            console.log('unseccessful. Error Message:', error.message)
+            console.log('unsuccessful. Error Message:', error.message)
         }
     }
+
+    // onClick function for flag profile pic
+    const handleAddProfileClick = () => {
+        showFlagSelection ? setShowFlagSelection(false) : setShowFlagSelection(true)
+    }
+
+    const handleFlagSelectionClick = (e) => {
+        setSelectedFlagProfile(e.target.alt)
+        handleAddProfileClick()
+        console.log("selected flag: " + selectedFlagProfile)
+    }
+
+    console.log(selectedFlagProfile)
 
     return (
         // Flex container
@@ -89,6 +111,24 @@ const Register = ({ sixtyFlagCodes }) => {
                     <div className='bg-mainText h-1 w-full z-10'>
 
                     </div>
+                    {/* Profile picture */}
+                    <div className='relative z-20 w-full flex flex-col items-center gap-3'>
+                        <button onClick={handleAddProfileClick}
+                            className='w-[90px] h-[90px] z-10 flex justify-center items-center'>
+                            <MdOutlineAddCircleOutline className={`w-full h-full ${selectedFlagProfile && 'hidden'}`} />
+                            {FlagProfilePicSelection && <img
+                                src={`https://flagcdn.com/80x60/${selectedFlagProfile}.png`}
+                                srcset={`https://flagcdn.com/160x120/${selectedFlagProfile}.png 2x,
+                                    https://flagcdn.com/240x180/${selectedFlagProfile}.png 3x`}
+                                width="80"
+                                height="60"
+                                alt={selectedFlagProfile}
+                                className={`${!selectedFlagProfile && 'hidden'}`} />}
+                        </button>
+                        Choose your favorite flag!
+                        {showFlagSelection && <FlagProfilePicSelection countryList={countryList} handleFlagSelectionClick={handleFlagSelectionClick} />}
+
+                    </div>
                     {/* Register Form */}
                     <div className='flex flex-col gap-3 p-6 items-center z-10'>
                         <form className='flex flex-col gap-6 w-72' onSubmit={handleRegisterSubmit} >
@@ -105,7 +145,7 @@ const Register = ({ sixtyFlagCodes }) => {
                             {/* Register button */}
                             <label className='flex flex-col'>
                                 <input type="submit" value="CREATE ACCOUNT" className='p-2 rounded-lg bg-mainText text-mainBackground
-                                hover:bg-slate-700 hover:scale-105 focus:bg-slate-500 focus:scale-100 transition-all' />
+                                hover:bg-slate-700 hover:scale-105 active:bg-slate-500 active:scale-100 transition-all' />
                             </label>
                             <div>
                                 Played before? <Link to="/" className='underline'>Login</Link>

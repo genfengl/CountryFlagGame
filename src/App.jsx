@@ -267,7 +267,7 @@ function App() {
   const [sixtyFlagCodes, setSixtyFlagCodes] = useState()
   const { currentUser } = useContext(AuthContext)
 
-  
+
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -296,7 +296,7 @@ function App() {
 
     }
   }, [])
-  
+
 
   return (
     <div className="App">
@@ -304,7 +304,7 @@ function App() {
         {/* <Navbar /> */}
         <Routes>
           <Route path='/login' element={<Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />} />
-          <Route path='/register' element={<Register sixtyFlagCodes={sixtyFlagCodes} />} />
+          <Route path='/register' element={<Register sixtyFlagCodes={sixtyFlagCodes} countryList={countryList} />} />
           <Route path='/' element={<ProtectedRoute>
             <Lobby />
           </ProtectedRoute>} />
