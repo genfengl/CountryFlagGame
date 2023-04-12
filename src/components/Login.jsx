@@ -58,12 +58,12 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
             </div>
 
             {/* Login container */}
-            <div className="flex justify-center 
+            <div className="flex justify-center items-center
             bg-[url('/Login_Background.png')] bg-cover
             ">
                 {/* login component with ::before pseudo element for bg gradient with transition on hover */}
-                <div className="flex relative flex-col gap-3 justify-center items-center justify-self-center self-center 
-                border-2 border-mainText rounded-xl p-6
+                <div className="flex relative flex-col gap-3 justify-center items-center w-80
+                border-2 border-mainText rounded-xl p-3
                 before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
                 before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
                 ">
@@ -73,18 +73,18 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                             Guessing Flags
                         </div>
                         <div>
-                            Become a country flag trivia champion!
+                            Become a flag trivia champion!
                         </div>
 
                     </div>
                     {/* Linebreak */}
-                    <div className='bg-[#242424] h-1 w-72 z-10'>
+                    <div className='bg-[#242424] h-1 w-64 z-10'>
 
                     </div>
                     {/* Login Form */}
-                    <div className="flex flex-col gap-3 p-6 items-center z-10
+                    <div className="flex flex-col gap-3 p-6 items-center z-10 w-72
                     ">
-                        <form className='flex flex-col gap-6 w-72' onSubmit={handleLoginSubmit}    >
+                        <form className='flex flex-col gap-6 w-full' onSubmit={handleLoginSubmit}    >
                             <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
                                 className="p-2 rounded-lg" />
                             <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
@@ -103,7 +103,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                     </div>
                 </div>
             </div>
-            {/* Top animation bar */}
+            {/* Bot animation bar */}
             <div className='flex items-end overflow-hidden'>
                 <div className='flex  animate-botInfiniteSlide '>
                     <BotAnimationBar sixtyFlagCodes={sixtyFlagCodes} />

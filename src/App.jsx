@@ -306,7 +306,7 @@ function App() {
           <Route path='/login' element={<Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />} />
           <Route path='/register' element={<Register sixtyFlagCodes={sixtyFlagCodes} countryList={countryList} />} />
           <Route path='/' element={<ProtectedRoute>
-            <Lobby />
+            <Lobby sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />
           <Route path='/leaderboard/:uid' element={<ProtectedRoute>
             <Leaderboard />

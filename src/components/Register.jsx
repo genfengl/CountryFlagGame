@@ -89,39 +89,34 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                     <TopAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
                 </div>
             </div>
-            <div className="flex justify-center 
+            <div className="flex justify-center items-center
             bg-[url('/Login_Background.png')] bg-cover
             ">
                 {/* Register container */}
-                <div className="flex relative flex-col gap-3 justify-center items-center justify-self-center self-center 
-                border-2 border-mainText rounded-xl p-6
+                <div className="flex relative flex-col gap-3 justify-center items-center w-80
+                border-2 border-mainText rounded-xl p-3
                 before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
                 before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
                 ">
                     {/* Main title */}
-                    <div className='flex flex-col p-3 items-center gap-3 z-10'>
+                    <div className='flex flex-col pt-3 items-center gap-3 z-10'>
                         <div className='text-3xl font-bold'>
                             Create Account
                         </div>
-                        <div>
-                            Register
-                        </div>
+                        
                     </div>
-                    {/* Linebreak */}
-                    <div className='bg-mainText h-1 w-full z-10'>
-
-                    </div>
+                    
                     {/* Profile picture */}
-                    <div className='relative z-20 w-full flex flex-col items-center gap-3'>
+                    <div className='relative z-20 w-full flex flex-col items-center justify-center gap-1'>
                         <button onClick={handleAddProfileClick}
-                            className='w-[90px] h-[90px] z-10 flex justify-center items-center'>
+                            className='relative w-[40px] h-[30px] z-10 flex justify-center items-center'>
                             <MdOutlineAddCircleOutline className={`w-full h-full ${selectedFlagProfile && 'hidden'}`} />
                             {FlagProfilePicSelection && <img
                                 src={`https://flagcdn.com/80x60/${selectedFlagProfile}.png`}
                                 srcset={`https://flagcdn.com/160x120/${selectedFlagProfile}.png 2x,
                                     https://flagcdn.com/240x180/${selectedFlagProfile}.png 3x`}
-                                width="80"
-                                height="60"
+                                width="40"
+                                height="30"
                                 alt={selectedFlagProfile}
                                 className={`${!selectedFlagProfile && 'hidden'}`} />}
                         </button>
@@ -129,9 +124,14 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                         {showFlagSelection && <FlagProfilePicSelection countryList={countryList} handleFlagSelectionClick={handleFlagSelectionClick} />}
 
                     </div>
+                    {/* Linebreak */}
+                    <div className='bg-mainText h-1 w-64 z-10'>
+
+                    </div>
                     {/* Register Form */}
-                    <div className='flex flex-col gap-3 p-6 items-center z-10'>
-                        <form className='flex flex-col gap-6 w-72' onSubmit={handleRegisterSubmit} >
+                    <div className='flex flex-col px-3 pt-3 items-center z-10 w-72'>
+                        {/* the gap is 5 here (6 for login) to adjust for the greater height */}
+                        <form className='flex flex-col gap-5 w-full' onSubmit={handleRegisterSubmit} >
                             <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
                                 className="p-2 rounded-lg" />
                             <input type="text" name="username" value={registerFields.username} onChange={handleRegisterChange} placeholder=" email address *"

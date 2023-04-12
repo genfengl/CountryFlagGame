@@ -6,7 +6,7 @@ const FlagProfilePicSelection = ({ countryList, handleFlagSelectionClick }) => {
     
     console.log(flagCodes)
     return (
-        <div className='z-20 absolute w-full h-[520px] grid grid-cols-6 gap-2 p-3 rounded-2xl overflow-auto bg-white bg-opacity-100'>
+        <div className='z-20 absolute w-full h-[336px] grid grid-cols-6 gap-2 p-3 rounded-2xl overflow-auto bg-white translate-y-56'>
             {flagCodes?.map((code) => {
                 return (
                     <button onClick={handleFlagSelectionClick}
