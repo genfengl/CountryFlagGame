@@ -312,7 +312,7 @@ function App() {
             <Leaderboard />
           </ProtectedRoute>} />
           <Route path='/game/:uid' element={<ProtectedRoute>
-            <Game />
+            <Game countryList={countryList}/>
           </ProtectedRoute>} />
 
 

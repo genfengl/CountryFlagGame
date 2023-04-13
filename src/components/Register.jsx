@@ -42,6 +42,9 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
         const confirmPassword = event.target[3].value
         const profileFlagCode = selectedFlagProfile
         console.log(event.target)
+        if (!profileFlagCode) {
+            return setError(true)
+        }
         if (password !== confirmPassword) {
             return setError(true)
         }
@@ -129,7 +132,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
 
                     </div>
                     {/* Register Form */}
-                    <div className='flex flex-col px-3 pt-3 items-center z-10 w-72'>
+                    <div className='flex flex-col px-6 pt-3 items-center z-10 w-72 text-mainBackground'>
                         {/* the gap is 5 here (6 for login) to adjust for the greater height */}
                         <form className='flex flex-col gap-5 w-full' onSubmit={handleRegisterSubmit} >
                             <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
@@ -140,7 +143,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                                 className="p-2 rounded-lg" />
                             <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
                                 className='p-2 rounded-lg' />
-                            {error && <span className="text-sm p-0 text-red-500 mt-0">Email already used or invalid password. <br /> Please try again.</span>}
+                            {error && <span className="text-sm p-0 text-red-500 mt-0">Email already used, invalid password or no flag selected. Please try again.</span>}
 
                             {/* Register button */}
                             <label className='flex flex-col'>
