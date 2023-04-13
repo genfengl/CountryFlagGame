@@ -329,6 +329,7 @@ const Game = ({ countryList }) => {
 
     // increment attemptedQuestion when a answer button is clicked and check against correct answer
     const handleAnswerClick = (e) => {
+        console.log(e.target.innerText)
         if (e.target.innerText === countryList[correctCountryCode]) {
             const nextArray = answerCorrect.map((answer, i) => {
                 if (i === Number(e.target.dataset.id)) {
@@ -423,7 +424,7 @@ const Game = ({ countryList }) => {
             {/* Gamestart preparation */}
             <div className={`flex flex-col gap-12 w-full font-bold text-mainBackground
             ${gameStart | firstGame === false ? 'hidden' : ''} `}>
-                <div className='text-5xl pb-6'>
+                <div className='text-center text-5xl pb-6'>
                     READY?
                 </div>
                 {/* START button */}
@@ -445,26 +446,29 @@ const Game = ({ countryList }) => {
                     GO BACK
                 </button>
             </div>
-            {/* Gamestart countdown timer */}
-            <div className={`text-5xl text-mainBackground h-[360px] flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
+            {/* Scoreboard and timer */}
+            <div>
+                {/* Gamestart countdown timer */}
+                <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
             animate-ping animation-delay-100`}>
-                {startCountdown}
-            </div>
-            {/* Game countdown timer */}
-            <div className={`text-5xl flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
-                {gameCountdown}
-            </div>
-            {/* Score */}
-            <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
-                {score}
+                    {startCountdown}
+                </div>
+                {/* Game countdown timer */}
+                <div className={`text-5xl font-bold flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                    {gameCountdown}
+                </div>
+                {/* Score */}
+                {/* <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                    {score}
+                </div> */}
             </div>
             {/* End of game report */}
             <div className={`${gameFinish && firstGame === false ? '' : 'hidden'}
-            font-bold gap-12 flex flex-col w-full text-mainBackground `}>
+            font-bold gap-16 flex flex-col w-full text-mainBackground `}>
                 {/* Container for the texts */}
-                <div className='flex flex-col gap-6'>
+                <div className='flex flex-col gap-6 text-center'>
                     <div className='text-5xl'>GOOD JOB!</div>
-                    <div className='flex gap-2 items-center text-xl'>
+                    <div className='flex flex-col gap-2 items-center text-xl'>
                         <img
                             src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
                             srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
@@ -477,7 +481,7 @@ const Game = ({ countryList }) => {
                     <div className='text-3xl'>Score: {score}</div>
                 </div>
                 {/* Buttons container */}
-                <div className='flex flex-col gap-6'>
+                <div className='flex flex-col gap-12'>
                     {/* Play Again button */}
                     <button onClick={handleStartButtonClick}
                         className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
@@ -498,40 +502,56 @@ const Game = ({ countryList }) => {
                 </div>
             </div>
             {/* The game itself */}
-            <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col items-center gap-3`}>
+            <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col w-full items-center gap-6`}>
                 {/* Flag */}
-                <div className='w-[360px] h-[360px] flex items-center'>
+                <div className='w-full h-36 flex justify-center'>
                     <img
                         // the code in src needs to be lowercase
                         src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
-                        width="360"
+                        width="240"
                     />
                 </div>
                 {/* Answers */}
-                <div className='grid grid-rows-2 grid-cols-2 gap-3 w-[640px]'>
+                <div className='grid grid-rows-4 w-full gap-3'>
                     <button onClick={handleAnswerClick}
-                        className={`h-[120px] p-3 text-xl font-bold border-1 border border-white rounded-2xl 
-                        ${answerCorrect[0] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[0] === 1 ? 'bg-red-500' : ''} `}
+                        className={`flex h-12 justify-center items-center text-blue-600 font-bold rounded-2xl drop-shadow-xl bg-mainBackground
+                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
+                        before:z-10 before:absolute 
+                        ${answerCorrect[0] === 1 ? 'before:bg-green-500' : ''} ${answerIncorrect[0] === 1 ? 'before:bg-red-500' : ''} 
+                        
+                        `}
                         data-id='0'>
-                        {countryList[flagCountryCodes[0]]}
+                        <div className='z-20'>{countryList[flagCountryCodes[0]]}</div>
                     </button>
                     <button onClick={handleAnswerClick}
-                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
-                        ${answerCorrect[1] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[1] === 1 ? 'bg-red-500' : ''} `}
+                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
+                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
+                        before:z-10 before:absolute 
+                        ${answerCorrect[1] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[1] === 1 ? 'bg-red-500' : ''} 
+                        
+                        `}
                         data-id='1'>
-                        {countryList[flagCountryCodes[1]]}
+                        <div>{countryList[flagCountryCodes[1]]}</div>
                     </button>
                     <button onClick={handleAnswerClick}
-                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
-                        ${answerCorrect[2] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[2] === 1 ? 'bg-red-500' : ''} `}
+                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
+                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
+                        before:z-10 before:absolute 
+                        ${answerCorrect[2] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[2] === 1 ? 'bg-red-500' : ''} 
+                        
+                        `}
                         data-id='2'>
-                        {countryList[flagCountryCodes[2]]}
+                        <div>{countryList[flagCountryCodes[2]]}</div>
                     </button>
                     <button onClick={handleAnswerClick}
-                        className={`p-3 text-xl font-bold border-1 border border-white rounded-2xl
-                        ${answerCorrect[3] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[3] === 1 ? 'bg-red-500' : ''} `}
+                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
+                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
+                        before:z-10 before:absolute 
+                        ${answerCorrect[3] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[3] === 1 ? 'bg-red-500' : ''} 
+                        
+                        `}
                         data-id='3'>
-                        {countryList[flagCountryCodes[3]]}
+                        <div>{countryList[flagCountryCodes[3]]}</div>
                     </button>
                 </div>
             </div>
