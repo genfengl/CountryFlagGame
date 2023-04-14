@@ -49,59 +49,64 @@ const Lobby = ({ sixtyFlagCodes }) => {
                     <TopAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
                 </div>
             </div>
-            {/* The lobby UI itself */}
-            <div className='flex flex-col items-center justify-center p-6 gap-6 font-bold bg-mainBackground
+            <div className='flex flex-col bg-mainBackground justify-center
+             '>
+                {/* The lobby UI itself */}
+                <div className='flex flex-col items-center justify-center p-6 gap-6 font-bold w-full max-w-[768px] 
+                md:m-auto 
             '>
-                {/* Greetings with the current username displayed */}
-                <div className='w-full text-5xl flex flex-col bg-slate-200 backdrop-blur-xl bg-opacity-10'>
-                    <div className='pb-1 bg-gradient-to-r from-[#5558da] to-[#5fd1f9] bg-clip-text text-transparent'>
-                        Let's Play
-                    </div>
-                    <div className='flex items-center gap-1 text-lg'>
-                        <img
-                            src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                            srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                    {/* Greetings with the current username displayed */}
+                    <div className='w-full text-5xl flex flex-col bg-slate-200 backdrop-blur-xl bg-opacity-10'>
+                        <div className='pb-1 bg-gradient-to-r from-[#5558da] to-[#5fd1f9] bg-clip-text text-transparent'>
+                            Let's Play
+                        </div>
+                        <div className='flex items-center gap-1 text-lg'>
+                            <img
+                                src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
+                                srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
                                     https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
-                            width="20"
-                            height="15"
-                            alt={currentProfileFlagCode} />
-                        {currentDisplayName}
+                                width="20"
+                                height="15"
+                                alt={currentProfileFlagCode} />
+                            {currentDisplayName}
+
+                        </div>
 
                     </div>
-                    
-                </div>
-                {/* the buttons */}
-                <div className='grid grid-rows-3 gap-12 w-full'>
-                    {/* Play Now */}
-                    <button onClick={() => navigate(`/game/${currentUser.uid}`)}
-                        className="flex relative items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
+                    {/* the buttons */}
+                    <div className='grid grid-rows-3 gap-12 w-full
+                md:grid-cols-2 md:grid-rows-2'>
+                        {/* Play Now */}
+                        <button onClick={() => navigate(`/game/${currentUser.uid}`)}
+                            className="flex relative items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
                         bg-gradient-to-r from-[#5558da] to-[#5fd1f9] drop-shadow-xl
-
                         before:content-[''] before:bg-[url('/game-console.png')] before:bg-contain before:w-20 before:aspect-square
                         before:absolute before:right-6 before:-translate-y-8
+                        md:col-span-2
                         ">
-                        Play
-                        
-                        
-                    </button>
-                    <button onClick={() => navigate(`/leaderboard/${currentUser.uid}`)}
-                        className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
+                            Play
+
+
+                        </button>
+                        <button onClick={() => navigate(`/leaderboard/${currentUser.uid}`)}
+                            className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
                         bg-gradient-to-r from-[#f2709c] to-[#ff9472] drop-shadow-xl
                         before:content-[''] before:bg-[url('/trophy.png')] before:bg-contain before:w-20 before:aspect-square
                         before:absolute before:right-6 before:-translate-y-8">
-                        Leaderboard
-                        
-                    </button>
-                    <button onClick={handleLogoutClick}
-                        className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
+                            Leaderboard
+
+                        </button>
+                        <button onClick={handleLogoutClick}
+                            className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
                         bg-gradient-to-r from-[#654ea3] to-[#eaafc8] drop-shadow-xl
                         before:content-[''] before:bg-[url('/run.png')] before:bg-contain before:w-20 before:aspect-square
                         before:absolute before:right-6 before:-translate-y-8">
-                            
-                        Logout
-                    </button>
-                </div>
 
+                            Logout
+                        </button>
+                    </div>
+
+                </div>
             </div>
             {/* Bot animation bar */}
             <div className='flex items-end overflow-hidden'>

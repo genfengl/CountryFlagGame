@@ -418,78 +418,27 @@ const Game = ({ countryList }) => {
     }, [attemptedQuestion])
 
     return (
-        <div className='flex flex-col gap-3 justify-center items-center h-screen p-6 text-mainBackground
-        bg-gradient-to-b from-sky-500 to-indigo-500
+        <div className='h-screen w-full flex justify-center items-center
+        bg-gradient-to-b from-sky-500 to-indigo-500'>
+            <div className='flex flex-col gap-12 justify-center items-center p-6 text-mainBackground w-full max-w-[768px]
+            md:m-auto
         '>
-            {/* Gamestart preparation */}
-            <div className={`flex flex-col gap-12 w-full font-bold text-mainBackground
-            ${gameStart | firstGame === false ? 'hidden' : ''} `}>
-                <div className='text-center text-5xl pb-6'>
-                    READY?
-                </div>
-                {/* START button */}
-                <button onClick={handleStartButtonClick}
-                    className={`flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
+                {/* Gamestart preparation */}
+                <div className={`flex flex-col gap-12 font-bold text-mainBackground w-full
+            ${gameStart | firstGame === false ? 'hidden' : ''}
+            md:m-auto  `}>
+                    <div className='text-center text-5xl pb-6'>
+                        READY?
+                    </div>
+                    {/* START button */}
+                    <button onClick={handleStartButtonClick}
+                        className={`flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
                     bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl
                     before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8                                    
                     `}
-                >
-                    START
-                </button>
-                <button onClick={handleGoBackButtonClick}
-                    className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl
-                    before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
-                    before:absolute before:right-6 before:-translate-y-8
-                    ">
-                    GO BACK
-                </button>
-            </div>
-            {/* Scoreboard and timer */}
-            <div>
-                {/* Gamestart countdown timer */}
-                <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
-            animate-ping animation-delay-100`}>
-                    {startCountdown}
-                </div>
-                {/* Game countdown timer */}
-                <div className={`text-5xl font-bold flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
-                    {gameCountdown}
-                </div>
-                {/* Score */}
-                {/* <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
-                    {score}
-                </div> */}
-            </div>
-            {/* End of game report */}
-            <div className={`${gameFinish && firstGame === false ? '' : 'hidden'}
-            font-bold gap-16 flex flex-col w-full text-mainBackground `}>
-                {/* Container for the texts */}
-                <div className='flex flex-col gap-6 text-center'>
-                    <div className='text-5xl'>GOOD JOB!</div>
-                    <div className='flex flex-col gap-2 items-center text-xl'>
-                        <img
-                            src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                            srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
-                                    https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
-                            width="40"
-                            height="30"
-                            alt={currentProfileFlagCode} />
-                        <div>{currentDisplayName}</div>
-                    </div>
-                    <div className='text-3xl'>Score: {score}</div>
-                </div>
-                {/* Buttons container */}
-                <div className='flex flex-col gap-12'>
-                    {/* Play Again button */}
-                    <button onClick={handleStartButtonClick}
-                        className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl
-                    before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
-                    before:absolute before:right-6 before:-translate-y-8                                    
-                    ">
-                        Play Again
+                    >
+                        Start
                     </button>
                     <button onClick={handleGoBackButtonClick}
                         className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
@@ -497,62 +446,122 @@ const Game = ({ countryList }) => {
                     before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8
                     ">
-                        GO BACK
+                        Cancel
                     </button>
                 </div>
-            </div>
-            {/* The game itself */}
-            <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col w-full items-center gap-6`}>
-                {/* Flag */}
-                <div className='w-full h-36 flex justify-center'>
-                    <img
-                        // the code in src needs to be lowercase
-                        src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
-                        width="240"
-                    />
+                {/* Scoreboard and timer */}
+                <div>
+                    {/* Gamestart countdown timer */}
+                    <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
+            animate-ping animation-delay-100`}>
+                        {startCountdown}
+                    </div>
+                    {/* Game countdown timer */}
+                    <div className={`text-5xl font-bold flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                        {gameCountdown}
+                    </div>
+                    {/* Score */}
+                    {/* <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                    {score}
+                </div> */}
                 </div>
-                {/* Answers */}
-                <div className='grid grid-rows-4 w-full gap-3'>
-                    <button onClick={handleAnswerClick}
-                        className={`flex h-12 justify-center items-center text-blue-600 font-bold rounded-2xl drop-shadow-xl bg-mainBackground
-                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
-                        before:z-10 before:absolute 
-                        ${answerCorrect[0] === 1 ? 'before:bg-green-500' : ''} ${answerIncorrect[0] === 1 ? 'before:bg-red-500' : ''} 
-                        
+                {/* End of game report */}
+                <div className={`${gameFinish && firstGame === false ? '' : 'hidden'}
+            font-bold gap-16 flex flex-col w-full text-mainBackground `}>
+                    {/* Container for the texts */}
+                    <div className='flex flex-col gap-6 text-center'>
+                        <div className='text-5xl'>GOOD JOB!</div>
+                        <div className='flex flex-col gap-2 items-center text-xl'>
+                            <img
+                                src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
+                                srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                                    https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
+                                width="40"
+                                height="30"
+                                alt={currentProfileFlagCode} />
+                            <div>{currentDisplayName}</div>
+                        </div>
+                        <div className='text-3xl'>Score: {score}</div>
+                    </div>
+                    {/* Buttons container */}
+                    <div className='flex flex-col gap-12'>
+                        {/* Play Again button */}
+                        <button onClick={handleStartButtonClick}
+                            className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
+                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl
+                    before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
+                    before:absolute before:right-6 before:-translate-y-8                                    
+                    ">
+                            Play Again
+                        </button>
+                        <button onClick={handleGoBackButtonClick}
+                            className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
+                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl
+                    before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
+                    before:absolute before:right-6 before:-translate-y-8
+                    ">
+                            Leave
+                        </button>
+                    </div>
+                </div>
+                {/* The game itself */}
+                <div className={`${gameStart === true && startCountdown === 0 ? '' : 'hidden'} flex flex-col w-full items-center gap-12`}>
+                    {/* Flag */}
+                    <div className='w-full h-36 flex justify-center'>
+                        <img
+                            // the code in src needs to be lowercase
+                            src={`https://flagcdn.com/${correctCountryCode?.toLowerCase()}.svg`}
+                            width="240"
+                        />
+                    </div>
+                    
+
+                    {/* Answers */}
+                    <div className='grid grid-rows-4 w-full gap-3
+                    md:grid-cols-2 md:grid-rows-2 md:text-lg'>
+                        <button onClick={handleAnswerClick}
+                            className={`flex h-12 justify-center items-center  font-bold rounded-2xl  drop-shadow-xl                         
+                        ${answerCorrect[0] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
+                        ${answerIncorrect[0] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f]  text-mainBackground' : ''} 
+                        ${answerCorrect[0] | answerIncorrect[0] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}     
+                        md:h-24                   
                         `}
-                        data-id='0'>
-                        <div className='z-20'>{countryList[flagCountryCodes[0]]}</div>
-                    </button>
-                    <button onClick={handleAnswerClick}
-                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
-                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
-                        before:z-10 before:absolute 
-                        ${answerCorrect[1] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[1] === 1 ? 'bg-red-500' : ''} 
+                            data-id='0'>
+                            {countryList[flagCountryCodes[0]]}
+                        </button>
+                        <button onClick={handleAnswerClick}
+                            className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
                         
+                        ${answerCorrect[1] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
+                        ${answerIncorrect[1] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
+                        ${answerCorrect[1] | answerIncorrect[1] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}
+                        md:h-24
                         `}
-                        data-id='1'>
-                        <div>{countryList[flagCountryCodes[1]]}</div>
-                    </button>
-                    <button onClick={handleAnswerClick}
-                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
-                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
-                        before:z-10 before:absolute 
-                        ${answerCorrect[2] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[2] === 1 ? 'bg-red-500' : ''} 
+                            data-id='1'>
+                            {countryList[flagCountryCodes[1]]}
+                        </button>
+                        <button onClick={handleAnswerClick}
+                            className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
                         
+                        ${answerCorrect[2] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
+                        ${answerIncorrect[2] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
+                        ${answerCorrect[2] | answerIncorrect[2] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}
+                        md:h-24
                         `}
-                        data-id='2'>
-                        <div>{countryList[flagCountryCodes[2]]}</div>
-                    </button>
-                    <button onClick={handleAnswerClick}
-                        className={`flex h-12 justify-center items-center text-blue-600 font-bold  rounded-2xl drop-shadow-xl bg-mainBackground
-                        before:content-[''] before:w-full before:h-12 before:rounded-2xl
-                        before:z-10 before:absolute 
-                        ${answerCorrect[3] === 1 ? 'bg-green-500' : ''} ${answerIncorrect[3] === 1 ? 'bg-red-500' : ''} 
-                        
+                            data-id='2'>
+                            {countryList[flagCountryCodes[2]]}
+                        </button>
+                        <button onClick={handleAnswerClick}
+                            className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
+                        ${answerCorrect[3] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
+                        ${answerIncorrect[3] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
+                        ${answerCorrect[3] | answerIncorrect[3] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}
+                        md:h-24
                         `}
-                        data-id='3'>
-                        <div>{countryList[flagCountryCodes[3]]}</div>
-                    </button>
+                            data-id='3'>
+                            {countryList[flagCountryCodes[3]]}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
