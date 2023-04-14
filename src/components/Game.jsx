@@ -310,9 +310,9 @@ const Game = ({ countryList }) => {
             setStartCountdown(startCountdown - 1)
             clearInterval(gameStartTimer)
         }
-        if (gameStart === true && startCountdown === 0) {
-            setStartCountdownFinish(true)
-        }
+        // if (gameStart === true && startCountdown === 0) {
+        //     setStartCountdownFinish(true)
+        // }
     }, 1000)
 
     // a countdown timer for the game itself: 60 seconds
@@ -433,41 +433,43 @@ const Game = ({ countryList }) => {
                     {/* START button */}
                     <button onClick={handleStartButtonClick}
                         className={`flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl
+                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
-                    before:absolute before:right-6 before:-translate-y-8                                    
+                    before:absolute before:right-6 before:-translate-y-8
+                    md:hover:scale-105 md:active:scale-100                      
                     `}
                     >
                         Start
                     </button>
                     <button onClick={handleGoBackButtonClick}
                         className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl
+                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8
+                    md:hover:scale-105 md:active:scale-100  
                     ">
                         Cancel
                     </button>
                 </div>
-                {/* Scoreboard and timer */}
-                <div>
-                    {/* Gamestart countdown timer */}
-                    <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
-            animate-ping animation-delay-100`}>
-                        {startCountdown}
-                    </div>
-                    {/* Game countdown timer */}
-                    <div className={`text-5xl font-bold flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
-                        {gameCountdown}
-                    </div>
-                    {/* Score */}
-                    {/* <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                
+
+                {/* Gamestart countdown timer */}
+                <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
+                animate-ping animation-delay-100`}>
+                    {startCountdown}
+                </div>
+                {/* Game countdown timer */}
+                <div className={`text-5xl font-bold flex items-center ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
+                    {gameCountdown}
+                </div>
+                {/* Score */}
+                {/* <div className={`text-5xl ${gameStart && startCountdown === 0 ? '' : 'hidden'}`}>
                     {score}
                 </div> */}
-                </div>
+
                 {/* End of game report */}
                 <div className={`${gameFinish && firstGame === false ? '' : 'hidden'}
-            font-bold gap-16 flex flex-col w-full text-mainBackground `}>
+                font-bold gap-16 flex flex-col w-full text-mainBackground `}>
                     {/* Container for the texts */}
                     <div className='flex flex-col gap-6 text-center'>
                         <div className='text-5xl'>GOOD JOB!</div>
@@ -488,17 +490,19 @@ const Game = ({ countryList }) => {
                         {/* Play Again button */}
                         <button onClick={handleStartButtonClick}
                             className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl
+                    bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
-                    before:absolute before:right-6 before:-translate-y-8                                    
+                    before:absolute before:right-6 before:-translate-y-8     
+                    md:hover:scale-105 md:active:scale-100                                 
                     ">
                             Play Again
                         </button>
                         <button onClick={handleGoBackButtonClick}
                             className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
-                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl
+                    bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8
+                    md:hover:scale-105 md:active:scale-100  
                     ">
                             Leave
                         </button>
@@ -514,7 +518,6 @@ const Game = ({ countryList }) => {
                             width="240"
                         />
                     </div>
-                    
 
                     {/* Answers */}
                     <div className='grid grid-rows-4 w-full gap-3
@@ -531,7 +534,6 @@ const Game = ({ countryList }) => {
                         </button>
                         <button onClick={handleAnswerClick}
                             className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
-                        
                         ${answerCorrect[1] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[1] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
                         ${answerCorrect[1] | answerIncorrect[1] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}
@@ -542,7 +544,6 @@ const Game = ({ countryList }) => {
                         </button>
                         <button onClick={handleAnswerClick}
                             className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
-                        
                         ${answerCorrect[2] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[2] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
                         ${answerCorrect[2] | answerIncorrect[2] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}
