@@ -4,15 +4,22 @@ import BotAnimationBar from './BotAnimationBar'
 import TopAnimationBar from './TopAnimationBar'
 import { query, orderBy, limit, getDocs, collection, doc, getDoc } from 'firebase/firestore'
 import { db } from '../Firebase-config'
+import { useNavigate } from 'react-router-dom'
+
 
 const Leaderboard = ({ sixtyFlagCodes }) => {
     // Current user information from AuthContext
     const { currentUser, currentDisplayName, currentProfileFlagCode } = useContext(AuthContext)
+    // toggle between highest score and total score leaderboard
+    const [showHighestScore, setShowHighestScore] = useState(true)
     const [currentUserHighestScore, setCurrentUserHighestScore] = useState()
     const [currentUserTotalScore, setCurrentUserTotalScore] = useState()
     const [currentUserHighestScoreRanking, setCurrentUserHighestScoreRanking] = useState()
     const [currentUserTotalScoreRanking, setCurrentUserTotalScoreRanking] = useState()
     const [rankingHighestScore, setRankingHighestScore] = useState()
+    const [rankingTotalScore, setRankingTotalScore] = useState()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         //  get the current user's highest score and total score
@@ -56,6 +63,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
             querySnapshot.forEach((doc) => {
                 usersOrderByTotalScoreDesc.push(doc.data())
             })
+            setRankingTotalScore(usersOrderByTotalScoreDesc)
 
             for (let i = 0; i < usersOrderByTotalScoreDesc.length; i++) {
                 if (usersOrderByTotalScoreDesc[i].uid === currentUser.uid) {
@@ -72,98 +80,168 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
 
         }
     }, [])
-    console.log(rankingHighestScore)
 
-    // const getLeaderboardUsers = () => {
-    //     const ranking = []
-    //     rankingHighestScore.forEach((user) => {
-    //         ranking.push(
+    const handleHighestScoreClick = () => {
+        setShowHighestScore(true)
+    }
 
-    //             <div>
-    //                 {user.uid}
-    //             </div>
-    //         )
-
-    //     })
-    //     return ranking
-    // }
+    const handleTotalScoreClick = () => {
+        setShowHighestScore(false)
+    }
+    // console.log(rankingHighestScore)
 
     return (
-        <div className='grid grid-rows-[auto_1fr_auto] h-screen'>
-            {/* Top animation bar */}
-            <div className='flex overflow-hidden'>
-                <div className='flex animate-topInfiniteSlide '>
-                    <TopAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
-                </div>
-            </div>
+        <div className='grid grid-rows-[1fr_auto] h-screen'>
+            
             {/* Container for the leaderboard */}
             <div className='bg-mainBackground'>
                 {/* the actual leaderboard itself */}
-                <div className='flex flex-col justify-center  w-full'>
+                <div className='flex flex-col justify-center  w-full '>
                     {/* Current user profile and scores */}
-                    <div className='flex flex-col gap-6 p-6'>
-                        {/* User profile */}
-                        <div className='flex items-center gap-3'>
-                            <img
-                                src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                                srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                    <div className='flex flex-col'>
+                        {/* User profile container */}
+                        <div className="bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]">
+                            {/* User profile */}
+                            <div className="flex items-center justify-between gap-3 p-6 text-mainBackground">
+                                {/* Ranking */}
+                                <div className='flex flex-col items-center w-16'>
+                                    <div className='text-3xl font-bold'>
+                                        {showHighestScore ? currentUserHighestScoreRanking : currentUserTotalScoreRanking}
+                                    </div>
+                                    <div className='font-bold'>
+                                        RANK
+                                    </div>
+                                </div>
+
+                                {/* Profile */}
+                                <div className='flex flex-col items-center gap-3'>
+                                    <img
+                                        src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
+                                        srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
                                     https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
-                                width="40"
-                                height="30"
-                                alt={currentProfileFlagCode}
-                                className='' />
-                            <div className='text-3xl font-bold'>
-                                {currentDisplayName}
+                                        width="60"
+                                        height="45"
+                                        alt={currentProfileFlagCode}
+                                        className='' />
+                                    <div className='text-2xl font-bold'>
+                                        {currentDisplayName}
+                                    </div>
+                                </div>
+                                {/* Score */}
+                                <div className='flex flex-col items-center w-16'>
+                                    <div className='text-3xl font-bold'>
+                                        {showHighestScore ? currentUserHighestScore : currentUserTotalScore}
+                                    </div>
+                                    <div className='font-bold'>
+                                        PTS
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className='flex flex-col'>
-                            <div className='flex justify-between'>
-                                <div>Highest score: {currentUserHighestScore} </div>
-                                <div>Rank: {currentUserHighestScoreRanking}</div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div>Total score: {currentUserTotalScore}</div>
-                                <div>Rank: {currentUserTotalScoreRanking}</div>
-                            </div>
-                            {/* <div>
-                                Total accuracy:
-                            </div> */}
-                        </div>
-                        {/* The leaderboard ranking all users (maybe just display the top 10) */}
-                        <div className='flex flex-col gap-6'>
-                            <div className='text-2xl font-bold'>
-                                Highest Score
-                            </div>
-                            <div className='flex flex-col gap-3'>
-                                {rankingHighestScore?.map((user, i) => {
-                                    return (
-                                        <>
-                                            <div className='flex gap-3'>
-                                                <div>
-                                                    {i+1}
-                                                </div>
-                                                <div>
-                                                    {user.displayName}
-                                                </div>
-                                                <div>
-                                                    {user.highestScore}
-                                                </div>
-                                            </div>
-                                        </>
-                                    )
-                                })}
+
+                        {/* Container for the leaderboard */}
+                        <div className='flex flex-col gap-6 p-6'>
+                            {/* Toggle button between highest score and total score */}
+                            <div className='flex justify-center w-full  font-bold'>
+                                <button onClick={handleHighestScoreClick}
+                                    className={`p-3  rounded-l-xl w-[50%]
+                                    transition
+                                    ${showHighestScore ? 'bg-gradient-to-br to-[#5558da] from-[#5fd1f9] text-mainBackground' : 'bg-slate-200'}`}>
+                                    Highest Score
+                                </button>
+                                <button onClick={handleTotalScoreClick}
+                                    className={`p-3  rounded-r-xl w-[50%]
+                                    transition
+                                    ${showHighestScore ? 'bg-slate-200' : 'bg-gradient-to-br to-[#5558da] from-[#5fd1f9] text-mainBackground'}`}>
+                                    Total Score
+                                </button>
+
                             </div>
 
+                            {/* The leaderboard ranking all users (maybe just display the top 10) */}
+                            <div>
+                                <div className={`flex flex-col gap-6 overflow-auto
+                                ${showHighestScore ? '' : 'hidden'}`}>
+                                    {rankingHighestScore?.map((user, i) => {
+                                        return (
+                                            <>
+                                                <div className='flex justify-between items-center'>
+                                                    <div className='flex items-center gap-3'>
+                                                        {/* Rank */}
+                                                        <div className='font-bold'>
+                                                            {i + 1}
+                                                        </div>
+                                                        {/* Profile flag */}
+                                                        <img
+                                                            src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                                            srcset={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                            https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
+                                                            width="40"
+                                                            height="30"
+                                                            alt={user.profileFlagCode}
+                                                            className='' />
+                                                        {/* displayName of each user */}
+                                                        <div>
+                                                            {user.displayName}
+                                                        </div>
+                                                    </div>
+                                                    {/* the highest score of this user */}
+                                                    <div className='font-bold'>
+                                                        {user.highestScore}
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )
+                                    })}
+                                </div>
+                                <div className={`flex flex-col gap-6 overflow-auto
+                                ${showHighestScore ? 'hidden' : ''}`}>
+                                    {rankingTotalScore?.map((user, i) => {
+                                        return (
+                                            <>
+                                                <div className='flex justify-between items-center'>
+                                                    <div className='flex items-center gap-3'>
+                                                        {/* Rank */}
+                                                        <div className='font-bold'>
+                                                            {i + 1}
+                                                        </div>
+                                                        {/* Profile flag */}
+                                                        <img
+                                                            src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                                            srcset={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                            https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
+                                                            width="40"
+                                                            height="30"
+                                                            alt={user.profileFlagCode}
+                                                            className='' />
+                                                        {/* displayName of each user */}
+                                                        <div>
+                                                            {user.displayName}
+                                                        </div>
+                                                    </div>
+                                                    {/* the highest score of this user */}
+                                                    <div className='font-bold'>
+                                                        {user.totalCorrectAnswers}
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             {/* Bot animation bar */}
-            <div className='flex items-end overflow-hidden'>
-                <div className='flex animate-botInfiniteSlide '>
-                    <BotAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
-                </div>
+            <div className='flex items-end bg-mainBackground p-6'>
+                <button onClick={() => navigate('/')}
+                className='rounded-xl p-3 w-full text-mainBackground font-bold
+                bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]'>
+                    Back To Lobby
+                </button>
+                
             </div>
         </div>
     )
