@@ -12,7 +12,8 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
     const [currentUserTotalScore, setCurrentUserTotalScore] = useState()
     const [currentUserHighestScoreRanking, setCurrentUserHighestScoreRanking] = useState()
     const [currentUserTotalScoreRanking, setCurrentUserTotalScoreRanking] = useState()
-    
+    const [rankingHighestScore, setRankingHighestScore] = useState()
+
     useEffect(() => {
         //  get the current user's highest score and total score
         const getCurrentUserDoc = async () => {
@@ -38,6 +39,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
             querySnapshot.forEach((doc) => {
                 usersOrderByHighestScoreDesc.push(doc.data())
             })
+            setRankingHighestScore(usersOrderByHighestScoreDesc)
             //  loop through the array and return the index that has the same uid as the current user
             for (let i = 0; i < usersOrderByHighestScoreDesc.length; i++) {
                 if (usersOrderByHighestScoreDesc[i].uid === currentUser.uid) {
@@ -54,6 +56,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
             querySnapshot.forEach((doc) => {
                 usersOrderByTotalScoreDesc.push(doc.data())
             })
+
             for (let i = 0; i < usersOrderByTotalScoreDesc.length; i++) {
                 if (usersOrderByTotalScoreDesc[i].uid === currentUser.uid) {
                     return setCurrentUserTotalScoreRanking(i + 1)
@@ -69,11 +72,24 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
 
         }
     }, [])
-    
+    console.log(rankingHighestScore)
 
+    // const getLeaderboardUsers = () => {
+    //     const ranking = []
+    //     rankingHighestScore.forEach((user) => {
+    //         ranking.push(
+
+    //             <div>
+    //                 {user.uid}
+    //             </div>
+    //         )
+
+    //     })
+    //     return ranking
+    // }
 
     return (
-        <div className='grid grid-rows-3 h-screen'>
+        <div className='grid grid-rows-[auto_1fr_auto] h-screen'>
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
                 <div className='flex animate-topInfiniteSlide '>
@@ -81,7 +97,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                 </div>
             </div>
             {/* Container for the leaderboard */}
-            <div>
+            <div className='bg-mainBackground'>
                 {/* the actual leaderboard itself */}
                 <div className='flex flex-col justify-center  w-full'>
                     {/* Current user profile and scores */}
@@ -113,6 +129,32 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                             {/* <div>
                                 Total accuracy:
                             </div> */}
+                        </div>
+                        {/* The leaderboard ranking all users (maybe just display the top 10) */}
+                        <div className='flex flex-col gap-6'>
+                            <div className='text-2xl font-bold'>
+                                Highest Score
+                            </div>
+                            <div className='flex flex-col gap-3'>
+                                {rankingHighestScore?.map((user, i) => {
+                                    return (
+                                        <>
+                                            <div className='flex gap-3'>
+                                                <div>
+                                                    {i+1}
+                                                </div>
+                                                <div>
+                                                    {user.displayName}
+                                                </div>
+                                                <div>
+                                                    {user.highestScore}
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                })}
+                            </div>
+
                         </div>
                     </div>
                 </div>
