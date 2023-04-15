@@ -9,6 +9,8 @@ export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({})
     const [currentDisplayName, setCurrentDisplayName] = useState('')
     const [currentProfileFlagCode, setCurrentProfileFlagCode] = useState('')
+    const [currentHighestScore, setCurrentHighestScore] = useState('')
+    const [currentTotalScore, setCurrentTotalScore] = useState('')
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -21,6 +23,8 @@ export const AuthContextProvider = ({ children }) => {
                     // console.log(docSnap.data().displayName)
                     setCurrentDisplayName(docSnap.data().displayName)
                     setCurrentProfileFlagCode(docSnap.data().profileFlagCode)
+                    setCurrentHighestScore(docSnap.data().highestScore)
+                    setCurrentTotalScore(docSnap.data().totalCorrectAnswers)
                 } else {
                     console.log("No such document!")
                 }
@@ -30,7 +34,8 @@ export const AuthContextProvider = ({ children }) => {
         })
     }, [])
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser, currentDisplayName, currentProfileFlagCode }}>
+        <AuthContext.Provider 
+        value={{ currentUser, setCurrentUser, currentDisplayName, currentProfileFlagCode, currentHighestScore, currentTotalScore }}>
             {children}
         </AuthContext.Provider>
     )

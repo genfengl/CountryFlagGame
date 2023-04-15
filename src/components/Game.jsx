@@ -1,7 +1,9 @@
 import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
+import { doc, getDoc, increment, setDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import { db } from '../Firebase-config'
 
 const Game = ({ countryList }) => {
     // user information from AuthContext
@@ -13,7 +15,6 @@ const Game = ({ countryList }) => {
     const [gameFinish, setGameFinish] = useState(true)
     const [firstGame, setFirstGame] = useState(true)
     const [startCountdown, setStartCountdown] = useState(3)
-    const [startCountdownFinish, setStartCountdownFinish] = useState(false)
     const [gameCountdown, setGameCountdown] = useState(60)
 
     // states for the actual game itself
@@ -24,6 +25,7 @@ const Game = ({ countryList }) => {
     // states for scorekeeping
     const [score, setScore] = useState(0)
     const [attemptedQuestion, setAttemptedQuestion] = useState(0)
+    const [scoreSaved, setScoreSaved] = useState(false)
 
     // states for background color effect of answers
     const [answerIncorrect, setAnswerIncorrect] = useState([
@@ -32,271 +34,19 @@ const Game = ({ countryList }) => {
     const [answerCorrect, setAnswerCorrect] = useState([
         0, 0, 0, 0
     ])
-    // Country Flag list with code for api requests
-    // 249 key-value pairs in the object
-    // const countryList = {
-    //     "AF": "Afghanistan",
-    //     "AL": "Albania",
-    //     "DZ": "Algeria",
-    //     "AS": "American Samoa",
-    //     "AD": "Andorra",
-    //     "AO": "Angola",
-    //     "AI": "Anguilla",
-    //     "AQ": "Antarctica",
-    //     "AG": "Antigua and Barbuda",
-    //     "AR": "Argentina",
-    //     "AM": "Armenia",
-    //     "AW": "Aruba",
-    //     "AU": "Australia",
-    //     "AT": "Austria",
-    //     "AZ": "Azerbaijan",
-    //     "BS": "Bahamas",
-    //     "BH": "Bahrain",
-    //     "BD": "Bangladesh",
-    //     "BB": "Barbados",
-    //     "BY": "Belarus",
-    //     "BE": "Belgium",
-    //     "BZ": "Belize",
-    //     "BJ": "Benin",
-    //     "BM": "Bermuda",
-    //     "BT": "Bhutan",
-    //     "BO": "Bolivia",
-    //     "BQ": "Bonaire",
-    //     "BA": "Bosnia and Herzegovina",
-    //     "BW": "Botswana",
-    //     "BV": "Bouvet Island",
-    //     "BR": "Brazil",
-    //     "IO": "British Indian Ocean Territory",
-    //     "BN": "Brunei Darussalam",
-    //     "BG": "Bulgaria",
-    //     "BF": "Burkina Faso",
-    //     "BI": "Burundi",
-    //     "CV": "Cabo Verde",
-    //     "KH": "Cambodia",
-    //     "CM": "Cameroon",
-    //     "CA": "Canada",
-    //     "KY": "Cayman Islands",
-    //     "CF": "Central African Republic",
-    //     "TD": "Chad",
-    //     "CL": "Chile",
-    //     "CN": "China",
-    //     "CX": "Christmas Island",
-    //     "CC": "Cocos (Keeling) Islands",
-    //     "CO": "Colombia",
-    //     "KM": "Comoros",
-    //     "CD": "Democratic Republic of the Congo",
-    //     "CG": "Republic of the Congo",
-    //     "CK": "Cook Islands",
-    //     "CR": "Costa Rica",
-    //     "HR": "Croatia",
-    //     "CU": "Cuba",
-    //     "CW": "Curaçao",
-    //     "CY": "Cyprus",
-    //     "CZ": "Czechia",
-    //     "CI": "Côte d'Ivoire",
-    //     "DK": "Denmark",
-    //     "DJ": "Djibouti",
-    //     "DM": "Dominica",
-    //     "DO": "Dominican Republic",
-    //     "EC": "Ecuador",
-    //     "EG": "Egypt",
-    //     "SV": "El Salvador",
-    //     "GQ": "Equatorial Guinea",
-    //     "ER": "Eritrea",
-    //     "EE": "Estonia",
-    //     "SZ": "Eswatini",
-    //     "ET": "Ethiopia",
-    //     "FK": "Falkland Islands",
-    //     "FO": "Faroe Islands",
-    //     "FJ": "Fiji",
-    //     "FI": "Finland",
-    //     "FR": "France",
-    //     "GF": "French Guiana",
-    //     "PF": "French Polynesia",
-    //     "TF": "French Southern Territories",
-    //     "GA": "Gabon",
-    //     "GM": "Gambia",
-    //     "GE": "Georgia",
-    //     "DE": "Germany",
-    //     "GH": "Ghana",
-    //     "GI": "Gibraltar",
-    //     "GR": "Greece",
-    //     "GL": "Greenland",
-    //     "GD": "Grenada",
-    //     "GP": "Guadeloupe",
-    //     "GU": "Guam",
-    //     "GT": "Guatemala",
-    //     "GG": "Guernsey",
-    //     "GN": "Guinea",
-    //     "GW": "Guinea-Bissau",
-    //     "GY": "Guyana",
-    //     "HT": "Haiti",
-    //     "HM": "Heard Island and McDonald Islands",
-    //     "VA": "Holy See",
-    //     "HN": "Honduras",
-    //     "HK": "Hong Kong",
-    //     "HU": "Hungary",
-    //     "IS": "Iceland",
-    //     "IN": "India",
-    //     "ID": "Indonesia",
-    //     "IR": "Iran",
-    //     "IQ": "Iraq",
-    //     "IE": "Ireland",
-    //     "IM": "Isle of Man",
-    //     "IL": "Israel",
-    //     "IT": "Italy",
-    //     "JM": "Jamaica",
-    //     "JP": "Japan",
-    //     "JE": "Jersey",
-    //     "JO": "Jordan",
-    //     "KZ": "Kazakhstan",
-    //     "KE": "Kenya",
-    //     "KI": "Kiribati",
-    //     "KP": "North Korea",
-    //     "KR": "South Korea",
-    //     "KW": "Kuwait",
-    //     "KG": "Kyrgyzstan",
-    //     "LA": "Laos",
-    //     "LV": "Latvia",
-    //     "LB": "Lebanon",
-    //     "LS": "Lesotho",
-    //     "LR": "Liberia",
-    //     "LY": "Libya",
-    //     "LI": "Liechtenstein",
-    //     "LT": "Lithuania",
-    //     "LU": "Luxembourg",
-    //     "MO": "Macao",
-    //     "MG": "Madagascar",
-    //     "MW": "Malawi",
-    //     "MY": "Malaysia",
-    //     "MV": "Maldives",
-    //     "ML": "Mali",
-    //     "MT": "Malta",
-    //     "MH": "Marshall Islands",
-    //     "MQ": "Martinique",
-    //     "MR": "Mauritania",
-    //     "MU": "Mauritius",
-    //     "YT": "Mayotte",
-    //     "MX": "Mexico",
-    //     "FM": "Micronesia",
-    //     "MD": "Moldova",
-    //     "MC": "Monaco",
-    //     "MN": "Mongolia",
-    //     "ME": "Montenegro",
-    //     "MS": "Montserrat",
-    //     "MA": "Morocco",
-    //     "MZ": "Mozambique",
-    //     "MM": "Myanmar",
-    //     "NA": "Namibia",
-    //     "NR": "Nauru",
-    //     "NP": "Nepal",
-    //     "NL": "Netherlands",
-    //     "NC": "New Caledonia",
-    //     "NZ": "New Zealand",
-    //     "NI": "Nicaragua",
-    //     "NE": "Niger",
-    //     "NG": "Nigeria",
-    //     "NU": "Niue",
-    //     "NF": "Norfolk Island",
-    //     "MP": "Northern Mariana Islands",
-    //     "NO": "Norway",
-    //     "OM": "Oman",
-    //     "PK": "Pakistan",
-    //     "PW": "Palau",
-    //     "PS": "Palestine",
-    //     "PA": "Panama",
-    //     "PG": "Papua New Guinea",
-    //     "PY": "Paraguay",
-    //     "PE": "Peru",
-    //     "PH": "Philippines",
-    //     "PN": "Pitcairn",
-    //     "PL": "Poland",
-    //     "PT": "Portugal",
-    //     "PR": "Puerto Rico",
-    //     "QA": "Qatar",
-    //     "MK": "North Macedonia",
-    //     "RO": "Romania",
-    //     "RU": "Russia",
-    //     "RW": "Rwanda",
-    //     "RE": "Réunion",
-    //     "BL": "Saint Barthélemy",
-    //     "SH": "Saint Helena, Ascension and Tristan da Cunha",
-    //     "KN": "Saint Kitts and Nevis",
-    //     "LC": "Saint Lucia",
-    //     "MF": "Saint Martin (French part)",
-    //     "PM": "Saint Pierre and Miquelon",
-    //     "VC": "Saint Vincent and the Grenadines",
-    //     "WS": "Samoa",
-    //     "SM": "San Marino",
-    //     "ST": "Sao Tome and Principe",
-    //     "SA": "Saudi Arabia",
-    //     "SN": "Senegal",
-    //     "RS": "Serbia",
-    //     "SC": "Seychelles",
-    //     "SL": "Sierra Leone",
-    //     "SG": "Singapore",
-    //     "SX": "Sint Maarten (Dutch part)",
-    //     "SK": "Slovakia",
-    //     "SI": "Slovenia",
-    //     "SB": "Solomon Islands",
-    //     "SO": "Somalia",
-    //     "ZA": "South Africa",
-    //     "GS": "South Georgia and the South Sandwich Islands",
-    //     "SS": "South Sudan",
-    //     "ES": "Spain",
-    //     "LK": "Sri Lanka",
-    //     "SD": "Sudan",
-    //     "SR": "Suriname",
-    //     "SJ": "Svalbard and Jan Mayen",
-    //     "SE": "Sweden",
-    //     "CH": "Switzerland",
-    //     "SY": "Syrian Arab Republic",
-    //     "TW": "Taiwan",
-    //     "TJ": "Tajikistan",
-    //     "TZ": "Tanzania, United Republic of",
-    //     "TH": "Thailand",
-    //     "TL": "Timor-Leste",
-    //     "TG": "Togo",
-    //     "TK": "Tokelau",
-    //     "TO": "Tonga",
-    //     "TT": "Trinidad and Tobago",
-    //     "TN": "Tunisia",
-    //     "TR": "Turkey",
-    //     "TM": "Turkmenistan",
-    //     "TC": "Turks and Caicos Islands",
-    //     "TV": "Tuvalu",
-    //     "UG": "Uganda",
-    //     "UA": "Ukraine",
-    //     "AE": "United Arab Emirates",
-    //     "GB": "United Kingdom of Great Britain and Northern Ireland",
-    //     "UM": "United States Minor Outlying Islands",
-    //     "US": "United States of America",
-    //     "UY": "Uruguay",
-    //     "UZ": "Uzbekistan",
-    //     "VU": "Vanuatu",
-    //     "VE": "Venezuela",
-    //     "VN": "Viet Nam",
-    //     "VG": "Virgin Islands (British)",
-    //     "VI": "Virgin Islands (U.S.)",
-    //     "WF": "Wallis and Futuna",
-    //     "EH": "Western Sahara",
-    //     "YE": "Yemen",
-    //     "ZM": "Zambia",
-    //     "ZW": "Zimbabwe",
-    //     "AX": "Åland Islands"
-    // };
 
     const countryCode = Object.keys(countryList)
 
     // start button click
     const handleStartButtonClick = () => {
-        setGameStart(true)
-        setGameFinish(false)
-        setFirstGame(false)
         setStartCountdown(3)
         setGameCountdown(60)
         setAttemptedQuestion(0)
         setScore(0)
+        setGameStart(true)
+        setGameFinish(false)
+        setFirstGame(false)
+        setScoreSaved(false)
     }
 
     // Go Back button click
@@ -310,9 +60,6 @@ const Game = ({ countryList }) => {
             setStartCountdown(startCountdown - 1)
             clearInterval(gameStartTimer)
         }
-        // if (gameStart === true && startCountdown === 0) {
-        //     setStartCountdownFinish(true)
-        // }
     }, 1000)
 
     // a countdown timer for the game itself: 60 seconds
@@ -327,7 +74,7 @@ const Game = ({ countryList }) => {
         }
     }, 1000)
 
-    // increment attemptedQuestion when a answer button is clicked and check against correct answer
+    // increment attemptedQuestion when an answer button is clicked and check it against the correct answer
     const handleAnswerClick = (e) => {
         console.log(e.target.innerText)
         if (e.target.innerText === countryList[correctCountryCode]) {
@@ -348,7 +95,6 @@ const Game = ({ countryList }) => {
                 setAttemptedQuestion(attemptedQuestion + 1)
                 clearInterval(answerDelay)
             }, 300)
-
         } else {
             const nextArray = answerIncorrect.map((answer, i) => {
                 if (i === Number(e.target.dataset.id)) {
@@ -417,6 +163,42 @@ const Game = ({ countryList }) => {
         console.log(score)
     }, [attemptedQuestion])
 
+
+    // UseEffect hook for updating the highest score for the current user
+    useEffect(() => {
+        const saveScore = async () => {
+            // the hook should remount when gameFinish state changes, 
+            // only want to save the score when game is finished (gameCountdown <= 0)
+            if (gameCountdown <= 0 && scoreSaved === false) {
+                if (currentUser !== null) {
+                    let userRef = doc(db, "users", currentUser.uid)
+                    const userDocSnap = await getDoc(userRef)
+                    if (userDocSnap.exists()) {
+                        console.log("userDocSnap: ", userDocSnap.data())
+                        // update both the highestScore and totalScore if score is higher than highestScore
+                        if (score > userDocSnap.data().highestScore) {
+                            await updateDoc(userRef, {
+                                highestScore: score,
+                                totalCorrectAnswers: increment(score)
+                            })                            
+                            setScoreSaved(true)
+                        } else {
+                            await updateDoc(userRef, {
+                                totalCorrectAnswers: userDocSnap.data().totalCorrectAnswers + score
+                            })
+                            setScoreSaved(true)
+                        }
+                    }
+                }
+            }
+        }
+        saveScore()
+        return () => {            
+        }
+    }, [gameFinish])
+    // console.log(currentUser.uid)
+
+
     return (
         <div className='h-screen w-full flex justify-center items-center
         bg-gradient-to-b from-sky-500 to-indigo-500'>
@@ -451,7 +233,7 @@ const Game = ({ countryList }) => {
                         Cancel
                     </button>
                 </div>
-                
+
 
                 {/* Gamestart countdown timer */}
                 <div className={`text-5xl text-mainBackground h-[360px] font-bold flex items-center ${gameStart && startCountdown > 0 ? '' : 'hidden'} 
@@ -489,21 +271,23 @@ const Game = ({ countryList }) => {
                     <div className='flex flex-col gap-12'>
                         {/* Play Again button */}
                         <button onClick={handleStartButtonClick}
-                            className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
+                            className={`flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
                     bg-gradient-to-r to-[#b6f492] from-[#338b93] drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8     
-                    md:hover:scale-105 md:active:scale-100                                 
-                    ">
+                    md:hover:scale-105 md:active:scale-100
+                    ${scoreSaved ? '' : 'disabled'}`}                                 
+                    >
                             Play Again
                         </button>
                         <button onClick={handleGoBackButtonClick}
-                            className="flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
+                            className={`flex relative items-end p-4 rounded-3xl text-3xl  text-mainBackground h-24 
                     bg-gradient-to-r from-[#f2709c] to-yellow-400 drop-shadow-xl transition
                     before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8
-                    md:hover:scale-105 md:active:scale-100  
-                    ">
+                    md:hover:scale-105 md:active:scale-100
+                    ${scoreSaved ? '' : 'disabled'}`}  
+                    >
                             Leave
                         </button>
                     </div>

@@ -309,7 +309,7 @@ function App() {
             <Lobby sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />
           <Route path='/leaderboard/:uid' element={<ProtectedRoute>
-            <Leaderboard />
+            <Leaderboard sixtyFlagCodes={sixtyFlagCodes} />
           </ProtectedRoute>} />
           <Route path='/game/:uid' element={<ProtectedRoute>
             <Game countryList={countryList}/>
