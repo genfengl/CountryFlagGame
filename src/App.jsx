@@ -8,6 +8,7 @@ import Lobby from './components/Lobby'
 import Navbar from './components/Navbar'
 import Game from './components/Game'
 import Leaderboard from './components/Leaderboard'
+import Credits from './components/Credits'
 
 
 function App() {
@@ -313,6 +314,9 @@ function App() {
           </ProtectedRoute>} />
           <Route path='/game/:uid' element={<ProtectedRoute>
             <Game countryList={countryList}/>
+          </ProtectedRoute>} />
+          <Route path='/credits' element={<ProtectedRoute>
+            <Credits sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />
 
 
