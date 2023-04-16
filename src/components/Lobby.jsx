@@ -79,10 +79,10 @@ const Lobby = ({ sixtyFlagCodes }) => {
                         {/* Play Now */}
                         <button onClick={() => navigate(`/game/${currentUser.uid}`)}
                             className="flex relative items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
-                        bg-gradient-to-r from-[#5558da] to-[#5fd1f9] drop-shadow-xl transition
+                        bg-gradient-to-r from-[#5558da] to-[#5fd1f9] drop-shadow-xl transition disabled
                         before:content-[''] before:bg-[url('/game-console.png')] before:bg-contain before:w-20 before:aspect-square
                         before:absolute before:right-6 before:-translate-y-8
-                        md:col-span-2 md:hover:scale-105 md:active:scale-100
+                        md:col-span-2 md:hover:scale-[102.5%] md:active:scale-100
                         ">
                             Play
                         </button>
@@ -96,7 +96,7 @@ const Lobby = ({ sixtyFlagCodes }) => {
                         </button>
                         <button onClick={handleLogoutClick}
                             className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
-                        bg-gradient-to-r from-[#654ea3] to-[#eaafc8] drop-shadow-xl transition
+                        bg-gradient-to-r from-[#654ea3] to-[#eaafc8] drop-shadow-xl transition                        
                         before:content-[''] before:bg-[url('/run.png')] before:bg-contain before:w-20 before:aspect-square
                         before:absolute before:right-6 before:-translate-y-8
                         md:hover:scale-105 md:active:scale-100">

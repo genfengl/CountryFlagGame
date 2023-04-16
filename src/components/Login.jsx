@@ -63,8 +63,8 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
             ">
                 {/* login component with ::before pseudo element for bg gradient with transition on hover */}
                 <div className="flex relative flex-col gap-3 justify-center items-center w-80
-                border-2 border-mainText rounded-xl p-3
-                before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
+                 rounded-2xl p-3
+                before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-2xl before:bg-left-bottom
                 before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
                 ">
                     {/* Main title */}

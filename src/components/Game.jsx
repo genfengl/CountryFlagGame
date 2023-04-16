@@ -21,6 +21,7 @@ const Game = ({ countryList }) => {
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [correctCountryCode, setCorrectCountryCode] = useState()
     const [correctAnswer, setCorrectAnswer] = useState()
+    const [disableAnswer, setDisableAnswer] = useState(false)
 
     // states for scorekeeping
     const [score, setScore] = useState(0)
@@ -77,6 +78,7 @@ const Game = ({ countryList }) => {
     // increment attemptedQuestion when an answer button is clicked and check it against the correct answer
     const handleAnswerClick = (e) => {
         console.log(e.target.innerText)
+        setDisableAnswer(true)
         if (e.target.innerText === countryList[correctCountryCode]) {
             const nextArray = answerCorrect.map((answer, i) => {
                 if (i === Number(e.target.dataset.id)) {
@@ -93,8 +95,9 @@ const Game = ({ countryList }) => {
                 })
                 setAnswerCorrect(nextArray)
                 setAttemptedQuestion(attemptedQuestion + 1)
+                setDisableAnswer(false)
                 clearInterval(answerDelay)
-            }, 300)
+            }, 500)
         } else {
             const nextArray = answerIncorrect.map((answer, i) => {
                 if (i === Number(e.target.dataset.id)) {
@@ -110,8 +113,9 @@ const Game = ({ countryList }) => {
                 })
                 setAnswerIncorrect(nextArray)
                 setAttemptedQuestion(attemptedQuestion + 1)
+                setDisableAnswer(false)
                 clearInterval(answerDelay)
-            }, 300)
+            }, 500)
         }
     }
 
@@ -180,11 +184,11 @@ const Game = ({ countryList }) => {
                             await updateDoc(userRef, {
                                 highestScore: score,
                                 totalCorrectAnswers: increment(score)
-                            })                            
+                            })
                             setScoreSaved(true)
                         } else {
                             await updateDoc(userRef, {
-                                totalCorrectAnswers: userDocSnap.data().totalCorrectAnswers + score
+                                totalCorrectAnswers: increment(score)
                             })
                             setScoreSaved(true)
                         }
@@ -193,7 +197,7 @@ const Game = ({ countryList }) => {
             }
         }
         saveScore()
-        return () => {            
+        return () => {
         }
     }, [gameFinish])
     // console.log(currentUser.uid)
@@ -276,8 +280,8 @@ const Game = ({ countryList }) => {
                     before:content-[''] before:bg-[url('/startup.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8     
                     md:hover:scale-105 md:active:scale-100
-                    ${scoreSaved ? '' : 'disabled'}`}                                 
-                    >
+                    ${scoreSaved ? '' : 'disabled'}`}
+                        >
                             Play Again
                         </button>
                         <button onClick={handleGoBackButtonClick}
@@ -286,8 +290,8 @@ const Game = ({ countryList }) => {
                     before:content-[''] before:bg-[url('/curve-arrow.png')] before:bg-contain before:w-20 before:aspect-square
                     before:absolute before:right-6 before:-translate-y-8
                     md:hover:scale-105 md:active:scale-100
-                    ${scoreSaved ? '' : 'disabled'}`}  
-                    >
+                    ${scoreSaved ? '' : 'disabled'}`}
+                        >
                             Leave
                         </button>
                     </div>
@@ -306,8 +310,9 @@ const Game = ({ countryList }) => {
                     {/* Answers */}
                     <div className='grid grid-rows-4 w-full gap-3
                     md:grid-cols-2 md:grid-rows-2 md:text-lg'>
-                        <button onClick={handleAnswerClick}
-                            className={`flex h-12 justify-center items-center  font-bold rounded-2xl  drop-shadow-xl                         
+                        {/* All answer buttons are disabled onclick and wait for the next question to show up before its clickable again */}
+                        <button onClick={handleAnswerClick} disabled={disableAnswer ? "true" : ""}
+                            className={`flex h-12 justify-center items-center  font-bold rounded-2xl  drop-shadow-xl                                                     
                         ${answerCorrect[0] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[0] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f]  text-mainBackground' : ''} 
                         ${answerCorrect[0] | answerIncorrect[0] ? 'text-mainBackground' : 'bg-mainBackground text-blue-600'}     
@@ -316,7 +321,7 @@ const Game = ({ countryList }) => {
                             data-id='0'>
                             {countryList[flagCountryCodes[0]]}
                         </button>
-                        <button onClick={handleAnswerClick}
+                        <button onClick={handleAnswerClick} disabled={disableAnswer ? "true" : ""}
                             className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
                         ${answerCorrect[1] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[1] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
@@ -326,7 +331,7 @@ const Game = ({ countryList }) => {
                             data-id='1'>
                             {countryList[flagCountryCodes[1]]}
                         </button>
-                        <button onClick={handleAnswerClick}
+                        <button onClick={handleAnswerClick} disabled={disableAnswer ? "true" : ""}
                             className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
                         ${answerCorrect[2] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[2] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
@@ -336,7 +341,7 @@ const Game = ({ countryList }) => {
                             data-id='2'>
                             {countryList[flagCountryCodes[2]]}
                         </button>
-                        <button onClick={handleAnswerClick}
+                        <button onClick={handleAnswerClick} disabled={disableAnswer ? "true" : ""}
                             className={`flex h-12 justify-center items-center font-bold  rounded-2xl drop-shadow-xl 
                         ${answerCorrect[3] === 1 ? 'bg-gradient-to-b from-[#0eae57] to-[#0c7475] text-mainBackground' : ''} 
                         ${answerIncorrect[3] === 1 ? 'bg-gradient-to-b from-[#ee4758] to-[#d64c7f] text-mainBackground' : ''} 
