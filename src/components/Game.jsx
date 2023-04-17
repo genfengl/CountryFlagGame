@@ -20,7 +20,6 @@ const Game = ({ countryList }) => {
     // states for the actual game itself
     const [flagCountryCodes, setFlagCountryCodes] = useState([])
     const [correctCountryCode, setCorrectCountryCode] = useState()
-    const [correctAnswer, setCorrectAnswer] = useState()
     const [disableAnswer, setDisableAnswer] = useState(false)
 
     // states for scorekeeping
@@ -77,7 +76,6 @@ const Game = ({ countryList }) => {
 
     // increment attemptedQuestion when an answer button is clicked and check it against the correct answer
     const handleAnswerClick = (e) => {
-        console.log(e.target.innerText)
         setDisableAnswer(true)
         if (e.target.innerText === countryList[correctCountryCode]) {
             const nextArray = answerCorrect.map((answer, i) => {
@@ -158,13 +156,10 @@ const Game = ({ countryList }) => {
 
             setFlagCountryCodes(fourCodes)
             setCorrectCountryCode(correctCode)
-            setCorrectAnswer(countryList[correctCode])
+            
         }
 
         createQuestion()
-        console.log(gameCountdown)
-        console.log(attemptedQuestion)
-        console.log(score)
     }, [attemptedQuestion])
 
 
@@ -177,8 +172,7 @@ const Game = ({ countryList }) => {
                 if (currentUser !== null) {
                     let userRef = doc(db, "users", currentUser.uid)
                     const userDocSnap = await getDoc(userRef)
-                    if (userDocSnap.exists()) {
-                        console.log("userDocSnap: ", userDocSnap.data())
+                    if (userDocSnap.exists()) {                    
                         // update both the highestScore and totalScore if score is higher than highestScore
                         if (score > userDocSnap.data().highestScore) {
                             await updateDoc(userRef, {

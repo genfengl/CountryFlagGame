@@ -19,6 +19,11 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
     // States for register form
     const [registerFields, setRegisterFields] = useState(initialState)
     const [error, setError] = useState(false)
+    const [noFlagError, setNoFlagError] = useState(false)
+    const [notSamePasswordError, setNotSamePasswordError] = useState(false)
+    const [noDisplayNameError, setNoDisplayNameError] = useState(false)
+    const [displayNameTooLongError, setDisplayNameTooLongError] = useState(false)
+    const [registrationError, setRegistrationError] = useState(null)
     const navigate = useNavigate()
 
     // States for displaying profile flag selection
@@ -32,26 +37,43 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
             [name]: value
         })
     }
+
+    // function for reseting all error states
+    // const resetErrorStates = () => {
+    //     setError(false)
+    //     setNoFlagError(false)
+    //     setNotSamePasswordError(false)
+    //     setNoDisplayNameError(false)
+    //     setDisplayNameTooLongError(false)
+    //     setRegistrationError(null)
+    // }
+
     // the function for register submission
     const handleRegisterSubmit = async (event) => {
         event.preventDefault()
+        setRegistrationError(null)
         // event.target is the form
         const displayName = event.target[0].value
         const email = event.target[1].value
         const password = event.target[2].value
         const confirmPassword = event.target[3].value
         const profileFlagCode = selectedFlagProfile
-        console.log(event.target)
+
         if (!profileFlagCode) {
-            return setError(true)
-        }
-        if (password !== confirmPassword) {
-            return setError(true)
+            // return setNoFlagError(true)
+            return setRegistrationError('Please select a flag')
+        } else if (password !== confirmPassword) {
+            return setRegistrationError('Please enter the same passwords')
+        } else if (!displayName) {
+            return setRegistrationError('Please enter a display name')
+        } else if (displayName.length > 12) {
+            return setRegistrationError('Display name should be no more than 12 characters')
         }
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
             console.log(res.user.uid)
             // user signed up (created user)
+
 
             await setDoc(doc(db, "users", res.user.uid), {
                 uid: res.user.uid,
@@ -65,10 +87,15 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
             })
             navigate('/')
         } catch (error) {
-            setError(true)
-            console.log('unsuccessful. Error Message:', error.message)
+            const errorCode = error.code
+            const errorMessage = error.message
+            
+            setError(error.code)
+            console.log('unsuccessful. Error Message:', error.code, error.message)
         }
     }
+
+
 
     // onClick function for flag profile pic
     const handleAddProfileClick = () => {
@@ -78,10 +105,9 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
     const handleFlagSelectionClick = (e) => {
         setSelectedFlagProfile(e.target.alt)
         handleAddProfileClick()
+        setNoFlagError(false)
         console.log("selected flag: " + selectedFlagProfile)
     }
-
-    console.log(selectedFlagProfile)
 
     return (
         // Flex container
@@ -97,7 +123,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
             ">
                 {/* Register container */}
                 <div className="flex relative flex-col gap-3 justify-center items-center w-80
-                border-2 border-mainText rounded-xl p-3
+                border-0 border-mainText rounded-xl p-3
                 before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
                 before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
                 ">
@@ -106,9 +132,9 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                         <div className='text-3xl font-bold'>
                             Create Account
                         </div>
-                        
+
                     </div>
-                    
+
                     {/* Profile picture */}
                     <div className='relative z-20 w-full flex flex-col items-center justify-center gap-1'>
                         <button onClick={handleAddProfileClick}
@@ -132,9 +158,9 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
 
                     </div>
                     {/* Register Form */}
-                    <div className='flex flex-col px-6 pt-3 items-center z-10 w-72 text-mainBackground'>
+                    <div className='flex flex-col px-6 items-center z-10 w-full text-mainBackground'>
                         {/* the gap is 5 here (6 for login) to adjust for the greater height */}
-                        <form className='flex flex-col gap-5 w-full' onSubmit={handleRegisterSubmit} >
+                        <form className='flex flex-col gap-3 w-full' onSubmit={handleRegisterSubmit} >
                             <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
                                 className="p-2 rounded-lg" />
                             <input type="text" name="username" value={registerFields.username} onChange={handleRegisterChange} placeholder=" email address *"
@@ -143,14 +169,18 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                                 className="p-2 rounded-lg" />
                             <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
                                 className='p-2 rounded-lg' />
-                            {error && <span className="text-sm p-0 text-red-500 mt-0">Email already used, invalid password or no flag selected. Please try again.</span>}
+                            {registrationError && <span className=" text-mainText">{registrationError}</span>}
+                            
+                            {error === 'auth/invalid-email' && <span className=" text-mainText">Invalid email</span>}
+                            {error === 'auth/weak-password' && <span className=" text-mainText">Password should be at least 6 characters</span>}
+                            {error === 'auth/email-already-in-use' && <span className=" text-mainText">Email already in use</span>}
 
                             {/* Register button */}
-                            <label className='flex flex-col'>
-                                <input type="submit" value="CREATE ACCOUNT" className='p-2 rounded-lg bg-mainText text-mainBackground
-                                hover:bg-slate-700 hover:scale-105 active:bg-slate-500 active:scale-100 transition-all' />
+                            <label className='flex flex-col w-full'>
+                                <input type="submit" value="CREATE ACCOUNT" className='p-2 rounded-lg bg-mainText text-mainBackground w-full
+                                md:hover:bg-slate-700 md:hover:scale-105 active:bg-slate-500 active:scale-100 transition-all' />
                             </label>
-                            <div>
+                            <div className='text-mainText'>
                                 Played before? <Link to="/" className='underline'>Login</Link>
                             </div>
                         </form>

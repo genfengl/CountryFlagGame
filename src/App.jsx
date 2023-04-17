@@ -18,7 +18,6 @@ function App() {
       "AL": "Albania",
       "DZ": "Algeria",
       "AS": "American Samoa",
-      "AD": "Andorra",
       "AO": "Angola",
       "AI": "Anguilla",
       "AQ": "Antarctica",

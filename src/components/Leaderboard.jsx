@@ -206,9 +206,6 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
             {/* the actual leaderboard itself */}
             <div className='flex flex-col w-full h-full
             md:m-auto'>
-
-
-
                 {/* Container for the leaderboard: mobile screen size */}
                 <div className='flex flex-col gap-6 p-6 pb-0 h-full
                         md:hidden'>
@@ -345,8 +342,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                         </div>
                     </div>
                     {/* Leaderboard for total score */}
-                    <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full pl-6 border-l-2 border-blue-600
-                            '>
+                    <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full pl-6 border-l-2 border-blue-600'>
                         <div className='flex justify-center text-mainBackground p-6 w-full rounded-2xl
                                 bg-gradient-to-br  to-[#5fd1f9] from-[#5558da]'>
                             Total Score
