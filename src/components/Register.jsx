@@ -19,10 +19,6 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
     // States for register form
     const [registerFields, setRegisterFields] = useState(initialState)
     const [error, setError] = useState(false)
-    const [noFlagError, setNoFlagError] = useState(false)
-    const [notSamePasswordError, setNotSamePasswordError] = useState(false)
-    const [noDisplayNameError, setNoDisplayNameError] = useState(false)
-    const [displayNameTooLongError, setDisplayNameTooLongError] = useState(false)
     const [registrationError, setRegistrationError] = useState(null)
     const navigate = useNavigate()
 
@@ -38,16 +34,6 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
         })
     }
 
-    // function for reseting all error states
-    // const resetErrorStates = () => {
-    //     setError(false)
-    //     setNoFlagError(false)
-    //     setNotSamePasswordError(false)
-    //     setNoDisplayNameError(false)
-    //     setDisplayNameTooLongError(false)
-    //     setRegistrationError(null)
-    // }
-
     // the function for register submission
     const handleRegisterSubmit = async (event) => {
         event.preventDefault()
@@ -59,15 +45,15 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
         const confirmPassword = event.target[3].value
         const profileFlagCode = selectedFlagProfile
 
+        // check for registration errors that are not included in the firebase authentication
         if (!profileFlagCode) {
-            // return setNoFlagError(true)
             return setRegistrationError('Please select a flag')
         } else if (password !== confirmPassword) {
             return setRegistrationError('Please enter the same passwords')
         } else if (!displayName) {
             return setRegistrationError('Please enter a display name')
         } else if (displayName.length > 12) {
-            return setRegistrationError('Display name should be no more than 12 characters')
+            return setRegistrationError('Display name should have no more than 12 characters')
         }
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
@@ -123,12 +109,12 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
             ">
                 {/* Register container */}
                 <div className="flex relative flex-col gap-3 justify-center items-center w-80
-                border-0 border-mainText rounded-xl p-3
+                border-0 border-mainText rounded-xl py-6 px-6
                 before:flex before:absolute before:w-full before:h-full before:content-['']  before:rounded-xl before:bg-left-bottom
-                before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-105 before:transition-all before:duration-500
+                before:bg-login-pattern before:bg-300% before:hover:bg-right-top before:hover:scale-[103%] before:transition-all before:duration-500
                 ">
                     {/* Main title */}
-                    <div className='flex flex-col pt-3 items-center gap-3 z-10'>
+                    <div className='flex flex-col items-center gap-3 z-10'>
                         <div className='text-3xl font-bold'>
                             Create Account
                         </div>
@@ -158,17 +144,17 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
 
                     </div>
                     {/* Register Form */}
-                    <div className='flex flex-col px-6 items-center z-10 w-full text-mainBackground'>
+                    <div className='flex flex-col px-3 items-center z-10 w-full text-mainBackground'>
                         {/* the gap is 5 here (6 for login) to adjust for the greater height */}
                         <form className='flex flex-col gap-3 w-full' onSubmit={handleRegisterSubmit} >
                             <input type="text" name="displayName" value={registerFields.displayName} onChange={handleRegisterChange} placeholder=" display name *"
-                                className="p-2 rounded-lg" />
+                                className="p-2 rounded-lg bg-mainText" />
                             <input type="text" name="username" value={registerFields.username} onChange={handleRegisterChange} placeholder=" email address *"
-                                className="p-2 rounded-lg" />
+                                className="p-2 rounded-lg bg-mainText" />
                             <input type="password" name="password" value={registerFields.password} onChange={handleRegisterChange} placeholder=" password *"
-                                className="p-2 rounded-lg" />
+                                className="p-2 rounded-lg bg-mainText" />
                             <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
-                                className='p-2 rounded-lg' />
+                                className='p-2 rounded-lg bg-mainText' />
                             {registrationError && <span className=" text-mainText">{registrationError}</span>}
                             
                             {error === 'auth/invalid-email' && <span className=" text-mainText">Invalid email</span>}

@@ -86,9 +86,9 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                     ">
                         <form className='flex flex-col gap-6 w-full text-mainBackground' onSubmit={handleLoginSubmit}    >
                             <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
-                                className="p-2 rounded-lg" />
+                                className="p-2 rounded-lg bg-mainText" />
                             <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
-                                className="p-2 rounded-lg" />
+                                className="p-2 rounded-lg bg-mainText" />
                             {error && <span className="text-xs p-0 text-red-500 mt-0">Incorrect email address or password.</span>}
                             {/* Login button */}
                             <label className='flex flex-col'>
