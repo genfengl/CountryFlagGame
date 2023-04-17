@@ -12,8 +12,7 @@ const Credits = ({ sixtyFlagCodes }) => {
     const navigate = useNavigate()
 
     return (
-        <div className='grid grid-rows-[auto_1fr_auto] h-screen bg-mainBackground
-        '>
+        <div className='grid grid-rows-[auto_1fr_auto] h-screen bg-mainBackground'>
 
             {/* Top animation bar */}
             <div className='flex overflow-hidden'>
@@ -22,13 +21,13 @@ const Credits = ({ sixtyFlagCodes }) => {
                 </div>
             </div>
 
-            <div className='flex flex-col justify-center p-6 gap-12 w-full max-w-[768px]
+            <div className='flex flex-col justify-center p-6 gap-6 w-full max-w-[768px]
             md:m-auto'>
                 <div className='text-5xl font-bold text-transparent bg-clip-text
                 bg-gradient-to-br  to-[#5fd1f9] from-[#5558da]'>
                     Credits
                 </div>
-                <div className='flex flex-col justify-center gap-3'>
+                <div className='flex flex-col justify-center gap-1'>
 
 
                     <div className='text-2xl'>Developer: </div>
@@ -45,14 +44,14 @@ const Credits = ({ sixtyFlagCodes }) => {
                                 className='hover:text-sky-700 transition'>
                                 <FaLinkedin />
                             </a>
-                            <a href="https://www.geraldliu-dev.netlify.app/"
+                            <a href="geraldliu-dev.netlify.app"
                                 className='hover:text-emerald-700 transition'>
                                 <FaUser />
                             </a>
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col gap-3'>
+                <div className='flex flex-col gap-1'>
                     <div className='text-2xl'>
                         Icons used:
                     </div>
@@ -65,7 +64,7 @@ const Credits = ({ sixtyFlagCodes }) => {
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-3'>
+                <div className='flex flex-col gap-1'>
                     <div className='text-2xl '>
                         Flags Used:
                     </div>

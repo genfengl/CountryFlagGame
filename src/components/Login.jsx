@@ -84,7 +84,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                     {/* Login Form */}
                     <div className="flex flex-col gap-3 p-6 items-center z-10 w-72
                     ">
-                        <form className='flex flex-col gap-6 w-full' onSubmit={handleLoginSubmit}    >
+                        <form className='flex flex-col gap-6 w-full text-mainBackground' onSubmit={handleLoginSubmit}    >
                             <input type="text" name="username" value={loginFields.username} onChange={handleLoginChange} placeholder=" email address *"
                                 className="p-2 rounded-lg" />
                             <input type="password" name="password" value={loginFields.password} onChange={handleLoginChange} placeholder=" password *"
@@ -96,7 +96,7 @@ const Login = ({ countryList, sixtyFlagCodes }) => {
                                 hover:bg-slate-700 hover:scale-105 active:bg-slate-500 active:scale-100 transition-all' />
                             </label>
                             {/* Link to the register page for new account */}
-                            <div>
+                            <div className='text-mainText'>
                                 New Player? <Link to="/register" className='underline'>Register</Link>
                             </div>
                         </form>
