@@ -308,10 +308,10 @@ function App() {
           <Route path='/' element={<ProtectedRoute>
             <Lobby sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />
-          <Route path='/leaderboard/:uid' element={<ProtectedRoute>
+          <Route path='/leaderboard' element={<ProtectedRoute>
             <Leaderboard sixtyFlagCodes={sixtyFlagCodes} />
           </ProtectedRoute>} />
-          <Route path='/game/:uid' element={<ProtectedRoute>
+          <Route path='/game' element={<ProtectedRoute>
             <Game countryList={countryList}/>
           </ProtectedRoute>} />
           <Route path='/credits' element={<ProtectedRoute>
