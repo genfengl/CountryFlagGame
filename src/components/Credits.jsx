@@ -44,7 +44,7 @@ const Credits = ({ sixtyFlagCodes }) => {
                                 className='hover:text-sky-700 transition'>
                                 <FaLinkedin />
                             </a>
-                            <a href="geraldliu-dev.netlify.app"
+                            <a href="https://geraldliu-dev.netlify.app"
                                 className='hover:text-emerald-700 transition'>
                                 <FaUser />
                             </a>
