@@ -77,7 +77,7 @@ const Lobby = ({ sixtyFlagCodes }) => {
                     <div className='grid grid-rows-3 gap-12 w-full
                 md:grid-cols-2 md:grid-rows-2'>
                         {/* Play Now */}
-                        <button onClick={() => navigate(`/game/${currentUser.uid}`)}
+                        <button onClick={() => navigate(`/game`)}
                             className="flex relative items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
                         bg-gradient-to-r from-[#5558da] to-[#5fd1f9] drop-shadow-xl transition disabled
                         before:content-[''] before:bg-[url('/game-console.png')] before:bg-contain before:w-20 before:aspect-square
@@ -86,7 +86,7 @@ const Lobby = ({ sixtyFlagCodes }) => {
                         ">
                             Play
                         </button>
-                        <button onClick={() => navigate(`/leaderboard/${currentUser.uid}`)}
+                        <button onClick={() => navigate(`/leaderboard`)}
                             className="flex items-end p-4 border rounded-3xl text-3xl  text-mainBackground h-24 
                         bg-gradient-to-r from-[#f2709c] to-[#ff9472] drop-shadow-xl transition
                         before:content-[''] before:bg-[url('/trophy.png')] before:bg-contain before:w-20 before:aspect-square
