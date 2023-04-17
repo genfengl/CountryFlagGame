@@ -110,7 +110,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     <div className='flex flex-col items-center gap-3'>
                         <img
                             src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                            srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                            srcSet={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
                                     https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
                             width="60"
                             height="45"
@@ -163,7 +163,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     <div className='flex flex-col items-center gap-3'>
                         <img
                             src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                            srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                            srcSet={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
                                     https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
                             width="60"
                             height="45"
@@ -243,7 +243,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                                 {/* Profile flag */}
                                                 <img
                                                     src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcset={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
                                                             https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
                                                     width="40"
                                                     height="30"
@@ -280,7 +280,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                                 {/* Profile flag */}
                                                 <img
                                                     src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcset={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
                                                             https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
                                                     width="40"
                                                     height="30"

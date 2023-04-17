@@ -7,10 +7,11 @@ const TopAnimationBar = ({sixtyFlagCodes}) => {
     const flags = []
     // the component needs to have a copy of the 30 flags
     for (let i = 0; i < 2; i++) {
-        sixtyFlagCodes?.forEach((flagCode) => {
+        sixtyFlagCodes?.forEach((flagCode, index) => {
             if (sixtyFlagCodes.indexOf(flagCode) < 30) {
                 flags.push(
-                    <div className='h-[60px] w-[80px]'>
+                    <div key={`${flagCode}_${index}_${i}`}
+                    className='h-[60px] w-[80px]'>
                         <img
                             src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
                             srcSet={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}

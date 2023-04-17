@@ -63,7 +63,7 @@ const Lobby = ({ sixtyFlagCodes }) => {
                         <div className='flex items-center gap-1 text-lg'>
                             <img
                                 src={`https://flagcdn.com/80x60/${currentProfileFlagCode}.png`}
-                                srcset={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
+                                srcSet={`https://flagcdn.com/160x120/${currentProfileFlagCode}.png 2x,
                                     https://flagcdn.com/240x180/${currentProfileFlagCode}.png 3x`}
                                 width="20"
                                 height="15"

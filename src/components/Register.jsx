@@ -128,7 +128,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                             <MdOutlineAddCircleOutline className={`w-full h-full ${selectedFlagProfile && 'hidden'}`} />
                             {FlagProfilePicSelection && <img
                                 src={`https://flagcdn.com/80x60/${selectedFlagProfile}.png`}
-                                srcset={`https://flagcdn.com/160x120/${selectedFlagProfile}.png 2x,
+                                srcSet={`https://flagcdn.com/160x120/${selectedFlagProfile}.png 2x,
                                     https://flagcdn.com/240x180/${selectedFlagProfile}.png 3x`}
                                 width="40"
                                 height="30"
