@@ -226,12 +226,15 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     </div>
                     {/* The leaderboard ranking all users (maybe just display the top 10) - mobile screen size */}
                     <div className=''>
-                        <div className={`flex flex-col gap-6 overflow-auto
+                        <div className={`flex flex-col gap-3 overflow-auto
                                 ${showHighestScore ? '' : 'hidden'}`}>
                             {rankingHighestScore?.map((user, i) => {
                                 return (
                                     <>
-                                        <div className='flex justify-between items-center'>
+                                        <div className={`flex justify-between items-center p-3 rounded-xl
+                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'}`}>
                                             <div className='flex items-center gap-3'>
                                                 {/* Rank */}
                                                 <div className='font-bold'>
@@ -260,12 +263,15 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                 )
                             })}
                         </div>
-                        <div className={`flex flex-col gap-6 overflow-auto
+                        <div className={`flex flex-col gap-3 overflow-auto
                                 ${showHighestScore ? 'hidden' : ''}`}>
                             {rankingTotalScore?.map((user, i) => {
                                 return (
                                     <>
-                                        <div className='flex justify-between items-center'>
+                                        <div className={`flex justify-between items-center p-3 rounded-xl
+                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'}`}>
                                             <div className='flex items-center gap-3'>
                                                 {/* Rank */}
                                                 <div className='font-bold'>
