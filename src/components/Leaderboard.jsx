@@ -91,7 +91,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
     // console.log(rankingHighestScore)
 
     return (
-        <div className='grid grid-rows-[auto_1fr_auto] h-screen bg-mainBackground'>
+        <div className='grid grid-rows-[auto_1fr_auto] h-screen bg-mainBackground overflow-hidden'>
             {/* User profile container */}
             <div className="bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]">
                 {/* User profile */}
@@ -131,7 +131,8 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     </div>
                 </div>
 
-                <div className='hidden items-center justify-between px-12 py-6 text-mainBackground
+                {/* Md size and above */}
+                <div className='hidden items-center justify-evenly px-12 py-6 text-mainBackground
                 md:flex'>
                     <div className='flex flex-col items-center w-40'>
                         <div className='text-2xl font-bold'>
@@ -173,7 +174,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                             {currentDisplayName}
                         </div>
                     </div>
-                    
+
                     <div className='flex flex-col items-center w-40'>
                         <div className='text-2xl font-bold'>
                             Total Score
@@ -203,30 +204,32 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                 </div>
             </div>
 
-            {/* the actual leaderboard itself */}
-            <div className='flex flex-col w-full h-full
-            md:m-auto'>
-                {/* Container for the leaderboard: mobile screen size */}
-                <div className='flex flex-col gap-6 p-6 pb-0 h-full
-                        md:hidden'>
-                    {/* Toggle button between highest score and total score */}
-                    <div className='flex justify-center w-full  font-bold'>
-                        <button onClick={handleHighestScoreClick}
-                            className={`p-3  rounded-l-xl w-[50%]
+            {/* Container for mobile leaderboard */}
+            <div className='grid grid-rows-[auto_1fr] w-full overflow-scroll
+            md:hidden'>
+                {/* Toggle button between highest score and total score */}
+                <div className='flex justify-center w-full  font-bold p-6
+                md:hidden'>
+                    <button onClick={handleHighestScoreClick}
+                        className={`p-3  rounded-l-xl w-[50%]
                                     transition
                                     ${showHighestScore ? 'bg-gradient-to-br to-[#5558da] from-[#5fd1f9] text-mainBackground' : 'bg-slate-200'}`}>
-                            Highest Score
-                        </button>
-                        <button onClick={handleTotalScoreClick}
-                            className={`p-3  rounded-r-xl w-[50%]
+                        Highest Score
+                    </button>
+                    <button onClick={handleTotalScoreClick}
+                        className={`p-3  rounded-r-xl w-[50%]
                                     transition
                                     ${showHighestScore ? 'bg-slate-200' : 'bg-gradient-to-br to-[#5558da] from-[#5fd1f9] text-mainBackground'}`}>
-                            Total Score
-                        </button>
-                    </div>
+                        Total Score
+                    </button>
+                </div>
+
+                {/* Container for the leaderboard: mobile screen size */}
+                <div className='px-6 pb-0 overflow-scroll h-full w-full
+                        md:hidden'>
                     {/* The leaderboard ranking all users (maybe just display the top 10) - mobile screen size */}
                     <div className=''>
-                        <div className={`flex flex-col gap-3 overflow-auto
+                        <div className={`flex flex-col gap-3
                                 ${showHighestScore ? '' : 'hidden'}`}>
                             {rankingHighestScore?.map((user, i) => {
                                 return (
@@ -263,7 +266,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                 )
                             })}
                         </div>
-                        <div className={`flex flex-col gap-3 overflow-auto
+                        <div className={`flex flex-col gap-3 overflow-scroll
                                 ${showHighestScore ? 'hidden' : ''}`}>
                             {rankingTotalScore?.map((user, i) => {
                                 return (
@@ -301,97 +304,99 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                             })}
                         </div>
                     </div>
-                </div>
-                {/* Container for the leaderboard: md and above screen sizes */}
-                <div className='hidden grid-cols-2 p-12 pb-0 w-full h-full
-                    md:grid 
-                    '>
-                    {/* Leaderboard for highest score */}
-                    <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full border-r-2 border-blue-600 pr-6
-                            '>
-                        <div className='flex justify-center text-mainBackground p-6 w-full rounded-2xl
-                                bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]'>
-                            Highest Score
-                        </div>
-                        <div className='flex flex-col justify-center gap-3 w-full'>
-                            {rankingHighestScore?.map((user, i) => {
-                                return (
-                                    <>
-                                        <div key={user.uid} className={`flex justify-between p-6 rounded-2xl
-                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
-                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
-                                            <div className='flex gap-6'>
-                                                <div className={``}>
-                                                    {i + 1}
-                                                </div>
-                                                <img
-                                                    src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
-                                    https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
-                                                    width="40"
-                                                    height="30"
-                                                    alt={user.profileFlagCode}
-                                                    className='' />
-                                                <div>
-                                                    {user.displayName}
-                                                </div>
 
-                                            </div>
-                                            <div>
-                                                {user.highestScore}
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                            })}
-                        </div>
-                    </div>
-                    {/* Leaderboard for total score */}
-                    <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full pl-6 border-l-2 border-blue-600'>
-                        <div className='flex justify-center text-mainBackground p-6 w-full rounded-2xl
-                                bg-gradient-to-br  to-[#5fd1f9] from-[#5558da]'>
-                            Total Score
-                        </div>
-                        <div className='flex flex-col justify-center gap-3 w-full'>
-                            {rankingTotalScore?.map((user, i) => {
-                                return (
-                                    <>
-                                        <div key={user.uid} className={`flex justify-between p-6 rounded-2xl
-                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
-                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
-                                            <div className='flex gap-6'>
-                                                <div>
-                                                    {i + 1}
-                                                </div>
-                                                <img
-                                                    src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
-                                    https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
-                                                    width="40"
-                                                    height="30"
-                                                    alt={user.profileFlagCode}
-                                                    className='' />
-                                                <div>
-                                                    {user.displayName}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                {user.totalCorrectAnswers}
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                            })}
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
 
+            {/* Container for the leaderboard: md and above screen sizes */}
+            <div className='hidden grid-cols-2 p-12 pb-0 w-full h-full overflow-auto
+                    md:grid'>
+                {/* Leaderboard for highest score */}
+                <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full border-r-2 border-blue-600 pr-6 overflow-auto       
+                '>
+                    <div className='w-full p-6 rounded-xl text-mainBackground text-center align-middle
+                    bg-gradient-to-br to-[#5558da] from-[#5fd1f9] '>
+                        Highest Score
+                    </div>
+                    <div className='flex flex-col justify-center gap-3 w-full'>
+                        {rankingHighestScore?.map((user, i) => {
+                            return (
+                                <>
+                                    <div key={user.uid} className={`flex justify-between p-6 rounded-2xl
+                    ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                    ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                    ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
+                                        <div className='flex gap-6'>
+                                            <div className={``}>
+                                                {i + 1}
+                                            </div>
+                                            <img
+                                                src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                                srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                    https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
+                                                width="40"
+                                                height="30"
+                                                alt={user.profileFlagCode}
+                                                className='' />
+                                            <div>
+                                                {user.displayName}
+                                            </div>
+
+                                        </div>
+                                        <div>
+                                            {user.highestScore}
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        })}
+                    </div>
+                </div>
+                {/* Leaderboard for total score */}
+                <div className='flex flex-col items-center gap-6 text-2xl font-bold w-full pl-6 border-l-2 border-blue-600'>
+                    <div className='w-full p-6 rounded-xl text-mainBackground text-center align-middle
+                    bg-gradient-to-br from-[#5558da] to-[#5fd1f9] '>
+                        Total Score
+                    </div>
+                    <div className='flex flex-col justify-center gap-3 w-full'>
+                        {rankingTotalScore?.map((user, i) => {
+                            return (
+                                <>
+                                    <div key={user.uid} className={`flex justify-between p-6 rounded-2xl
+                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
+                                        <div className='flex gap-6'>
+                                            <div>
+                                                {i + 1}
+                                            </div>
+                                            <img
+                                                src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                                srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                    https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
+                                                width="40"
+                                                height="30"
+                                                alt={user.profileFlagCode}
+                                                className='' />
+                                            <div>
+                                                {user.displayName}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {user.totalCorrectAnswers}
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
             {/* Back to lobby button */}
             <div className='flex items-center gap-3 p-6
-            md:p-12 md:gap-12'>
+                md:p-12 md:gap-12'>
                 <button onClick={() => navigate('/')}
                     className='rounded-2xl w-[50%] p-3 text-mainBackground font-bold transition
                 bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]
@@ -405,7 +410,10 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     Credits
                 </button>
             </div>
-        </div>
+
+
+
+        </div >
     )
 }
 
