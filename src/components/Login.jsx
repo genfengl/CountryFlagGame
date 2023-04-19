@@ -7,7 +7,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import TopAnimationBar from './TopAnimationBar'
 import BotAnimationBar from './BotAnimationBar'
 
-const Login = ({ countryList, sixtyFlagCodes }) => {
+const Login = ({ sixtyFlagCodes }) => {
     const { currentUser, currentDisplayName } = useContext(AuthContext)
     const initialState = {
         username: '',
