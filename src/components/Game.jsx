@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
-import { doc, getDoc, increment, setDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, increment, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../Firebase-config'
 
