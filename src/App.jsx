@@ -275,6 +275,13 @@ function App() {
     return children
   }
 
+  const LoggedInRoute = ({ children }) => {
+    if (currentUser) {
+      return <Navigate to="/" />
+    }
+    return children
+  }
+
   useEffect(() => {
     // Generate array of flags for top animation bar
     const topAnimationFlags = () => {
@@ -302,8 +309,12 @@ function App() {
       <BrowserRouter>
         {/* <Navbar /> */}
         <Routes>
-          <Route path='/login' element={<Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />} />
-          <Route path='/register' element={<Register sixtyFlagCodes={sixtyFlagCodes} countryList={countryList} />} />
+          <Route path='/login' element={<LoggedInRoute>
+            <Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />
+            </LoggedInRoute>} />
+          <Route path='/register' element={<LoggedInRoute>
+            <Register sixtyFlagCodes={sixtyFlagCodes} countryList={countryList} />
+            </LoggedInRoute>} />
           <Route path='/' element={<ProtectedRoute>
             <Lobby sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />

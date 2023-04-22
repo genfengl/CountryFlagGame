@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
-import BotAnimationBar from './BotAnimationBar'
-import TopAnimationBar from './TopAnimationBar'
-import { query, orderBy, limit, getDocs, collection, doc, getDoc } from 'firebase/firestore'
+import { query, orderBy, getDocs, collection, doc, getDoc } from 'firebase/firestore'
 import { db } from '../Firebase-config'
 import { useNavigate } from 'react-router-dom'
 
 
-const Leaderboard = ({ sixtyFlagCodes }) => {
+const Leaderboard = () => {
     // Current user information from AuthContext
     const { currentUser, currentDisplayName, currentProfileFlagCode } = useContext(AuthContext)
     // toggle between highest score and total score leaderboard
@@ -239,7 +237,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                         <div className={`flex justify-between items-center p-3 rounded-xl
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'}`}>
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
                                             <div className='flex items-center gap-3'>
                                                 {/* Rank */}
                                                 <div className='font-bold'>
@@ -313,7 +311,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                 </div>
             </div>
 
-            {/* Container for md or above screen size: highest score */}
+            {/* Container for both highest score and total score for md or above screen size */}
             {/* Overflow-hidden for parent */}
             <div className='hidden grid-rows-[auto_1fr] gap-6 text-2xl font-bold w-full border-r-2 border-blue-600 p-6 overflow-hidden
                 md:grid'>
@@ -321,6 +319,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                     bg-gradient-to-br to-[#5558da] from-[#5fd1f9] '>
                     Highest Score
                 </div>
+                {/* Container for md or above screen size: highest score */}
                 {/* overflow-auto for child */}
                 <div className='flex flex-col gap-3 w-full overflow-auto'>
                     {rankingHighestScore?.map((user, i) => {
@@ -329,7 +328,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                 <div key={user.uid} className={`flex justify-between p-6 rounded-2xl 
                     ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                     ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                    ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
+                    ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
                                     <div className='flex gap-6'>
                                         <div className={``}>
                                             {i + 1}
@@ -370,7 +369,7 @@ const Leaderboard = ({ sixtyFlagCodes }) => {
                                 <div key={user.uid} className={`flex justify-between p-6 rounded-2xl
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                                        ${i === 2 && 'bg-gradient-to-r from-orange-700 to-orange-200'} `}>
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
                                     <div className='flex gap-6'>
                                         <div>
                                             {i + 1}
