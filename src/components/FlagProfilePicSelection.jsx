@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const FlagProfilePicSelection = ({ countryList, handleFlagSelectionClick }) => {
     
@@ -14,7 +14,7 @@ const FlagProfilePicSelection = ({ countryList, handleFlagSelectionClick }) => {
                         <img
                             src={`https://flagcdn.com/40x30/${code.toLowerCase()}.png`}
                             srcSet={`https://flagcdn.com/80x60/${code.toLowerCase()}.png 2x,
-    https://flagcdn.com/120x90/${code.toLowerCase()}.png 3x`}
+                                    https://flagcdn.com/120x90/${code.toLowerCase()}.png 3x`}
                             width="40"
                             height="30"
                             alt={code.toLowerCase()} />

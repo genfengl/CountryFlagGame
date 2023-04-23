@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { db, auth } from '../Firebase-config'
 
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import TopAnimationBar from './TopAnimationBar'
 import BotAnimationBar from './BotAnimationBar'
 

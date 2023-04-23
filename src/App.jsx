@@ -266,8 +266,6 @@ function App() {
   const [sixtyFlagCodes, setSixtyFlagCodes] = useState()
   const { currentUser } = useContext(AuthContext)
 
-
-
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/login" />
@@ -299,7 +297,6 @@ function App() {
     topAnimationFlags()
     // console.log(countryCodes)
     return () => {
-
     }
   }, [])
 
@@ -327,10 +324,6 @@ function App() {
           <Route path='/credits' element={<ProtectedRoute>
             <Credits sixtyFlagCodes={sixtyFlagCodes}/>
           </ProtectedRoute>} />
-
-
-
-
         </Routes>
       </BrowserRouter>
     </div>

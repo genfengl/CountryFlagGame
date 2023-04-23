@@ -1,6 +1,6 @@
 import { auth, db } from '../Firebase-config'
 import { onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { createContext, useEffect, useState } from 'react'
 
 export const AuthContext = createContext()
@@ -9,8 +9,7 @@ export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({})
     const [currentDisplayName, setCurrentDisplayName] = useState('')
     const [currentProfileFlagCode, setCurrentProfileFlagCode] = useState('')
-    const [currentHighestScore, setCurrentHighestScore] = useState('')
-    const [currentTotalScore, setCurrentTotalScore] = useState('')
+    
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -35,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
     }, [])
     return (
         <AuthContext.Provider 
-        value={{ currentUser, setCurrentUser, currentDisplayName, currentProfileFlagCode, currentHighestScore, currentTotalScore }}>
+        value={{ currentUser, setCurrentUser, currentDisplayName, currentProfileFlagCode }}>
             {children}
         </AuthContext.Provider>
     )

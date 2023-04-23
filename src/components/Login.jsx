@@ -1,6 +1,6 @@
 import { auth } from '../Firebase-config'
 import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
