@@ -49,12 +49,10 @@ const Lobby = ({ sixtyFlagCodes }) => {
                     <TopAnimationBar sixtyFlagCodes={sixtyFlagCodes} />
                 </div>
             </div>
-            <div className="flex flex-col bg-mainBackground bg-cover justify-center
-             ">
+            <div className="flex flex-col bg-mainBackground bg-cover justify-center">
                 {/* The lobby UI itself */}
                 <div className='flex flex-col items-center justify-center p-6 gap-6 font-bold w-full max-w-[768px] 
-                md:m-auto 
-            '>
+                md:m-auto md:p-12'>
                     {/* Greetings with the current username displayed */}
                     <div className='w-full text-5xl flex flex-col '>
                         <div className='pb-1 bg-gradient-to-r from-[#5558da] to-[#5fd1f9] bg-clip-text text-transparent'>
@@ -69,9 +67,7 @@ const Lobby = ({ sixtyFlagCodes }) => {
                                 height="15"
                                 alt={currentProfileFlagCode} />
                             {currentDisplayName}
-
                         </div>
-
                     </div>
                     {/* the buttons */}
                     <div className='grid grid-rows-3 gap-12 w-full

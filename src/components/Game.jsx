@@ -156,7 +156,6 @@ const Game = ({ countryList }) => {
 
             setFlagCountryCodes(fourCodes)
             setCorrectCountryCode(correctCode)
-            
         }
 
         createQuestion()
@@ -201,7 +200,7 @@ const Game = ({ countryList }) => {
         <div className='h-screen w-full flex justify-center items-center
         bg-gradient-to-b from-sky-500 to-indigo-500'>
             <div className='flex flex-col gap-12 justify-center items-center p-6 text-mainBackground w-full max-w-[768px]
-            md:m-auto
+            md:m-auto md:p-12
         '>
                 {/* Gamestart preparation */}
                 <div className={`flex flex-col gap-12 font-bold text-mainBackground w-full
