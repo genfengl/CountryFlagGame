@@ -8,6 +8,7 @@ import Lobby from './components/Lobby'
 import Game from './components/Game'
 import Leaderboard from './components/Leaderboard'
 import Credits from './components/Credits'
+import NotFound from './components/NotFound'
 
 
 function App() {
@@ -306,23 +307,26 @@ function App() {
       <BrowserRouter>
         {/* <Navbar /> */}
         <Routes>
+          <Route path='*' element={<ProtectedRoute>
+            <NotFound />
+            </ProtectedRoute>} />
           <Route path='/login' element={<LoggedInRoute>
             <Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />
-            </LoggedInRoute>} />
+          </LoggedInRoute>} />
           <Route path='/register' element={<LoggedInRoute>
             <Register sixtyFlagCodes={sixtyFlagCodes} countryList={countryList} />
-            </LoggedInRoute>} />
+          </LoggedInRoute>} />
           <Route path='/' element={<ProtectedRoute>
-            <Lobby sixtyFlagCodes={sixtyFlagCodes}/>
+            <Lobby sixtyFlagCodes={sixtyFlagCodes} />
           </ProtectedRoute>} />
           <Route path='/leaderboard' element={<ProtectedRoute>
             <Leaderboard sixtyFlagCodes={sixtyFlagCodes} />
           </ProtectedRoute>} />
           <Route path='/game' element={<ProtectedRoute>
-            <Game countryList={countryList}/>
+            <Game countryList={countryList} />
           </ProtectedRoute>} />
           <Route path='/credits' element={<ProtectedRoute>
-            <Credits sixtyFlagCodes={sixtyFlagCodes}/>
+            <Credits sixtyFlagCodes={sixtyFlagCodes} />
           </ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
