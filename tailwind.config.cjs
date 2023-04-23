@@ -31,8 +31,8 @@ module.exports = {
         }
       },
       animation: {
-        topInfiniteSlide: 'topInfiniteSlide 30s linear infinite',
-        botInfiniteSlide: 'botInfiniteSlide 30s linear infinite',
+        topInfiniteSlide: 'topInfiniteSlide 36s linear infinite',
+        botInfiniteSlide: 'botInfiniteSlide 36s linear infinite',
       }
     },
   },

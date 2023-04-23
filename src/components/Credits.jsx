@@ -33,15 +33,15 @@ const Credits = ({ sixtyFlagCodes }) => {
                     <div className='flex justify-between items-center text-2xl'>
                         <a href="https://geraldliu-dev.netlify.app/" className='font-bold'> Gerald Liu</a>
                         <div className='flex gap-6 text-3xl items-center'>
-                            <a href='https://www.github.com/genfengl'
+                            <a href='https://www.github.com/genfengl' target='_blank'
                                 className='hover:text-blue-700 transition'>
                                 <FaGithub />
                             </a>
-                            <a href="https://www.linkedin.com/in/geraldlgf"
+                            <a href="https://www.linkedin.com/in/geraldlgf" target='_blank'
                                 className='hover:text-sky-700 transition'>
                                 <FaLinkedin />
                             </a>
-                            <a href="https://geraldliu-dev.netlify.app"
+                            <a href="https://geraldliu-dev.netlify.app" target='_blank'
                                 className='hover:text-emerald-700 transition'>
                                 <FaUser />
                             </a>
@@ -53,11 +53,11 @@ const Credits = ({ sixtyFlagCodes }) => {
                         Icons:
                     </div>
                     <div className='flex flex-col'>
-                        <a href="https://www.flaticon.com/free-icons/run" title="run icons">Run icons created by Freepik - Flaticon</a>
-                        <a href="https://www.flaticon.com/free-icons/trophy" title="trophy icons">Trophy icons created by Freepik - Flaticon</a>
-                        <a href="https://www.flaticon.com/free-icons/sony" title="sony icons">Sony icons created by Freepik - Flaticon</a>
-                        <a href="https://www.flaticon.com/free-icons/boost" title="boost icons">Boost icons created by Freepik - Flaticon</a>
-                        <a href="https://www.flaticon.com/free-icons/curve-arrow" title="curve arrow icons">Curve arrow icons created by Creative Stall Premium - Flaticon</a>
+                        <a href="https://www.flaticon.com/free-icons/run" title="run icons" target='_blank'>Run icons created by Freepik - Flaticon</a>
+                        <a href="https://www.flaticon.com/free-icons/trophy" title="trophy icons" target='_blank'>Trophy icons created by Freepik - Flaticon</a>
+                        <a href="https://www.flaticon.com/free-icons/sony" title="sony icons" target='_blank'>Sony icons created by Freepik - Flaticon</a>
+                        <a href="https://www.flaticon.com/free-icons/boost" title="boost icons" target='_blank'>Boost icons created by Freepik - Flaticon</a>
+                        <a href="https://www.flaticon.com/free-icons/curve-arrow" title="curve arrow icons" target='_blank'>Curve arrow icons created by Creative Stall Premium - Flaticon</a>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@ const Credits = ({ sixtyFlagCodes }) => {
                         Flags:
                     </div>
                     <div>
-                        <a href="https://flagpedia.net/download/api">Flagpedia.net API</a>
+                        <a href="https://flagpedia.net/download/api" target='_blank'>Flagpedia.net API</a>
                     </div>
                 </div>
 

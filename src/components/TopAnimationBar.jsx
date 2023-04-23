@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 // Generate the an array of flag img components for top animation bar
 const TopAnimationBar = ({sixtyFlagCodes}) => {
     
@@ -22,8 +21,7 @@ const TopAnimationBar = ({sixtyFlagCodes}) => {
                 )
             }
         })
-    }
-    
+    }    
     return (
         <>
             {flags}

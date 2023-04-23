@@ -22,8 +22,6 @@ export const AuthContextProvider = ({ children }) => {
                     // console.log(docSnap.data().displayName)
                     setCurrentDisplayName(docSnap.data().displayName)
                     setCurrentProfileFlagCode(docSnap.data().profileFlagCode)
-                    setCurrentHighestScore(docSnap.data().highestScore)
-                    setCurrentTotalScore(docSnap.data().totalCorrectAnswers)
                 } else {
                     console.log("No such document!")
                 }
