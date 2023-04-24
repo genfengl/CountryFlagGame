@@ -238,9 +238,9 @@ const Leaderboard = () => {
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
-                                            <div className='flex items-center gap-3'>
+                                            <div className='grid grid-cols-[36px_auto_auto] gap-3 items-center'>
                                                 {/* Rank */}
-                                                <div className='font-bold'>
+                                                <div className='font-bold flex justify-center'>
                                                     {i + 1}
                                                 </div>
                                                 {/* Profile flag */}
@@ -253,7 +253,7 @@ const Leaderboard = () => {
                                                     alt={user.profileFlagCode}
                                                     className='' />
                                                 {/* displayName of each user */}
-                                                <div>
+                                                <div className='px-2'>
                                                     {user.displayName}
                                                 </div>
                                             </div>
@@ -276,9 +276,9 @@ const Leaderboard = () => {
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
-                                            <div className='flex items-center gap-3'>
+                                            <div className='grid grid-cols-[36px_auto_auto] items-center gap-3'>
                                                 {/* Rank */}
-                                                <div className='font-bold'>
+                                                <div className='font-bold flex justify-center'>
                                                     {i + 1}
                                                 </div>
                                                 {/* Profile flag */}
@@ -291,7 +291,7 @@ const Leaderboard = () => {
                                                     alt={user.profileFlagCode}
                                                     className='' />
                                                 {/* displayName of each user */}
-                                                <div>
+                                                <div className='px-2'>
                                                     {user.displayName}
                                                 </div>
                                             </div>
@@ -329,8 +329,8 @@ const Leaderboard = () => {
                     ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                     ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                     ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
-                                    <div className='flex gap-6'>
-                                        <div className={``}>
+                                    <div className='grid grid-cols-[36px_auto_1fr] items-center gap-6'>
+                                        <div className='flex justify-center'>
                                             {i + 1}
                                         </div>
                                         <img
@@ -370,8 +370,8 @@ const Leaderboard = () => {
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
-                                    <div className='flex gap-6'>
-                                        <div>
+                                    <div className='grid grid-cols-[36px_auto_1fr] items-center gap-6'>
+                                        <div className='flex justify-center'>
                                             {i + 1}
                                         </div>
                                         <img
