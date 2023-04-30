@@ -4,7 +4,6 @@ import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { db, auth } from '../Firebase-config'
-
 import { useNavigate } from 'react-router-dom'
 import TopAnimationBar from './TopAnimationBar'
 import BotAnimationBar from './BotAnimationBar'

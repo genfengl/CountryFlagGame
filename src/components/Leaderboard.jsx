@@ -325,7 +325,7 @@ const Leaderboard = () => {
                     {rankingHighestScore?.map((user, i) => {
                         return (
                             <>
-                                <div key={user.uid} className={`flex justify-between px-3 py-6 rounded-2xl 
+                                <div key={user.uid} className={`flex justify-between px-4 py-6 rounded-2xl 
                     ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                     ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                     ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
@@ -366,7 +366,7 @@ const Leaderboard = () => {
                     {rankingTotalScore?.map((user, i) => {
                         return (
                             <>
-                                <div key={user.uid} className={`flex justify-between px-3 py-6 rounded-2xl
+                                <div key={user.uid} className={`flex justify-between px-4 py-6 rounded-2xl
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>

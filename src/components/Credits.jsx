@@ -4,12 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import BotAnimationBar from './BotAnimationBar'
 import TopAnimationBar from './TopAnimationBar'
 
-
-
 const Credits = ({ sixtyFlagCodes }) => {
-
     const navigate = useNavigate()
-
     return (
         <div className='grid grid-rows-[auto_1fr_auto] h-screen bg-mainBackground'>
             {/* Top animation bar */}

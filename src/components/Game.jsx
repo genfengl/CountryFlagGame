@@ -195,7 +195,6 @@ const Game = ({ countryList }) => {
     }, [gameFinish])
     // console.log(currentUser.uid)
 
-
     return (
         <div className='h-screen w-full flex justify-center items-center
         bg-gradient-to-b from-sky-500 to-indigo-500'>

@@ -1,10 +1,7 @@
 import React from 'react'
 
 const FlagProfilePicSelection = ({ countryList, handleFlagSelectionClick }) => {
-    
     const flagCodes = Object.keys(countryList)
-    
-    console.log(flagCodes)
     return (
         <div className='z-20 absolute w-full h-[336px] grid grid-cols-6 gap-2 p-3 rounded-2xl overflow-auto bg-white translate-y-56'>
             {flagCodes?.map((code) => {
