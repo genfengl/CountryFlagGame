@@ -8,8 +8,8 @@ const BotAnimationBar = ({ sixtyFlagCodes }) => {
             if (sixtyFlagCodes.indexOf(flagCode) >= 30) {
                 flags.push(
                     <div key={`${flagCode}_${index}_${i}`}
-                    className='w-[80px] h-[60px]'>
-                        <img 
+                        className='w-[80px] h-[60px]'>
+                        <img
                             src={`https://flagcdn.com/w80/${flagCode.toLowerCase()}.png`}
                             srcSet={`https://flagcdn.com/w160/${flagCode.toLowerCase()}.png 2x`}
                             width="80"

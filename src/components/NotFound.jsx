@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const NotFound = () => {
-const navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (
         <div className="h-screen w-screen flex items-center justify-center p-6 m-auto
@@ -16,7 +16,7 @@ const navigate = useNavigate()
                     Page Not Found
                 </div>
                 <button onClick={() => navigate('/')}
-                className='text-2xl font-bold bg-mainText p-6 rounded-2xl transition-all
+                    className='text-2xl font-bold bg-mainText p-6 rounded-2xl transition-all
                 md:hover:scale-[103%]'>
                     Back to lobby
                 </button>

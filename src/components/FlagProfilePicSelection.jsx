@@ -7,7 +7,7 @@ const FlagProfilePicSelection = ({ countryList, handleFlagSelectionClick }) => {
             {flagCodes?.map((code) => {
                 return (
                     <button onClick={handleFlagSelectionClick}
-                    className='z-20 flex justify-center '>
+                        className='z-20 flex justify-center '>
                         <img
                             src={`https://flagcdn.com/40x30/${code.toLowerCase()}.png`}
                             srcSet={`https://flagcdn.com/80x60/${code.toLowerCase()}.png 2x,

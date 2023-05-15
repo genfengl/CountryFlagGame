@@ -171,7 +171,7 @@ const Game = ({ countryList }) => {
                 if (currentUser !== null) {
                     let userRef = doc(db, "users", currentUser.uid)
                     const userDocSnap = await getDoc(userRef)
-                    if (userDocSnap.exists()) {                    
+                    if (userDocSnap.exists()) {
                         // update both the highestScore and totalScore if score is higher than highestScore
                         if (score > userDocSnap.data().highestScore) {
                             await updateDoc(userRef, {

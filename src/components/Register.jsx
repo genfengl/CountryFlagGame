@@ -75,7 +75,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
         } catch (error) {
             const errorCode = error.code
             const errorMessage = error.message
-            
+
             setError(error.code)
             console.log('unsuccessful. Error Message:', error.code, error.message)
         }
@@ -156,7 +156,7 @@ const Register = ({ sixtyFlagCodes, countryList }) => {
                             <input type="password" name="confirmPassword" value={registerFields.confirmPassword} onChange={handleRegisterChange} placeholder=" confirm password *"
                                 className='p-2 rounded-lg bg-mainText' />
                             {registrationError && <span className=" text-mainText">{registrationError}</span>}
-                            
+
                             {error === 'auth/invalid-email' && <span className=" text-mainText">Invalid email</span>}
                             {error === 'auth/weak-password' && <span className=" text-mainText">Password should be at least 6 characters</span>}
                             {error === 'auth/email-already-in-use' && <span className=" text-mainText">Email already in use</span>}

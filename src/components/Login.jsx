@@ -16,7 +16,7 @@ const Login = ({ sixtyFlagCodes }) => {
 
     const [loginFields, setLoginFields] = useState(initialState)
     const [error, setError] = useState(false)
-    
+
     const navigate = useNavigate()
 
     // const [sixtyFlagCodes, setSixtyFlagCodes] = useState([])
@@ -38,7 +38,7 @@ const Login = ({ sixtyFlagCodes }) => {
 
         await setPersistence(auth, browserSessionPersistence)
             .then(() => {
-                return signInWithEmailAndPassword(auth, email, password) 
+                return signInWithEmailAndPassword(auth, email, password)
             })
             .catch((error) => {
                 setError(true)
