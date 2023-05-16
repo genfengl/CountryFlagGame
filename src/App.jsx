@@ -288,7 +288,6 @@ function App() {
       const flagCodes = []
       while (flagCodes?.length < 60) {
         let candidateInt = Math.floor(Math.random() * countryCodes.length)
-        // do not include CH: Switzerland or NP: Nepal because the flag size is different
         if (flagCodes.indexOf(countryCodes[candidateInt]) === -1) {
           flagCodes.push(countryCodes[candidateInt])
         }
@@ -305,11 +304,10 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Navbar /> */}
         <Routes>
           <Route path='*' element={<ProtectedRoute>
             <NotFound />
-            </ProtectedRoute>} />
+          </ProtectedRoute>} />
           <Route path='/login' element={<LoggedInRoute>
             <Login countryList={countryList} sixtyFlagCodes={sixtyFlagCodes} />
           </LoggedInRoute>} />

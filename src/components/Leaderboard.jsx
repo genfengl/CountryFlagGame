@@ -226,88 +226,81 @@ const Leaderboard = () => {
 
                 {/* Container for the leaderboard: mobile screen size */}
                 <div className='px-6 pb-0 overflow-scroll h-full w-full
-                        md:hidden'>
-                    {/* The leaderboard for highest score */}
-                    <div className=''>
-                        <div className={`flex flex-col gap-3
+                    md:hidden'>
+                    {/* container for highest score leaderboard mobile screen */}
+                    <div className={`flex flex-col gap-3
                                 ${showHighestScore ? '' : 'hidden'}`}>
-                            {rankingHighestScore?.map((user, i) => {
-                                return (
-                                    <>
-                                        <div className={`flex justify-between items-center p-3 rounded-xl
+                        {rankingHighestScore?.map((user, i) => {
+                            return (
+                                <div key={user.displayName + 'mobile highest score'}
+                                    className={`flex justify-between items-center p-3 rounded-xl
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
-                                            <div className='grid grid-cols-[36px_auto_auto] gap-3 items-center'>
-                                                {/* Rank */}
-                                                <div className='font-bold flex justify-center'>
-                                                    {i + 1}
-                                                </div>
-                                                {/* Profile flag */}
-                                                <img
-                                                    src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
-                                                            https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
-                                                    width="40"
-                                                    height="30"
-                                                    alt={user.profileFlagCode}
-                                                    className='' />
-                                                {/* displayName of each user */}
-                                                <div className='px-2'>
-                                                    {user.displayName}
-                                                </div>
-                                            </div>
-                                            {/* the highest score of this user */}
-                                            <div className='font-bold'>
-                                                {user.highestScore}
-                                            </div>
+                                    <div className='grid grid-cols-[36px_auto_auto] gap-3 items-center'>
+                                        {/* Rank */}
+                                        <div className='font-bold flex justify-center'>
+                                            {i + 1}
                                         </div>
-                                    </>
-                                )
-                            })}
-                        </div>
-                        {/* the leaderboard for total score */}
-                        <div className={`flex flex-col gap-3 overflow-scroll
-                                ${showHighestScore ? 'hidden' : ''}`}>
-                            {rankingTotalScore?.map((user, i) => {
-                                return (
-                                    <>
-                                        <div className={`flex justify-between items-center p-3 rounded-xl
-                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
-                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                                        ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
-                                            <div className='grid grid-cols-[36px_auto_auto] items-center gap-3'>
-                                                {/* Rank */}
-                                                <div className='font-bold flex justify-center'>
-                                                    {i + 1}
-                                                </div>
-                                                {/* Profile flag */}
-                                                <img
-                                                    src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
-                                                    srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                        {/* Profile flag */}
+                                        <img
+                                            src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                            srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
                                                             https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
-                                                    width="40"
-                                                    height="30"
-                                                    alt={user.profileFlagCode}
-                                                    className='' />
-                                                {/* displayName of each user */}
-                                                <div className='px-2'>
-                                                    {user.displayName}
-                                                </div>
-                                            </div>
-                                            {/* the highest score of this user */}
-                                            <div className='font-bold'>
-                                                {user.totalCorrectAnswers}
-                                            </div>
+                                            width="40"
+                                            height="30"
+                                            alt={user.profileFlagCode}
+                                            className='' />
+                                        {/* displayName of each user */}
+                                        <div className='px-2'>
+                                            {user.displayName}
                                         </div>
-                                    </>
-                                )
-                            })}
-                        </div>
+                                    </div>
+                                    {/* the highest score of this user */}
+                                    <div className='font-bold'>
+                                        {user.highestScore}
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
-
-
-
+                    {/* the leaderboard for total score */}
+                    <div className={`flex flex-col gap-3 overflow-scroll
+                                ${showHighestScore ? 'hidden' : ''}`}>
+                        {rankingTotalScore?.map((user, i) => {
+                            return (
+                                <div key={user.displayName + 'mobile total score'}
+                                    className={`flex justify-between items-center p-3 rounded-xl
+                                        ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                                        ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                                        ${i === 2 && 'bg-gradient-to-r from-orange-400 to-orange-200'}`}>
+                                    <div className='grid grid-cols-[36px_auto_auto] items-center gap-3'>
+                                        {/* Rank */}
+                                        <div className='font-bold flex justify-center'>
+                                            {i + 1}
+                                        </div>
+                                        {/* Profile flag */}
+                                        <img
+                                            src={`https://flagcdn.com/80x60/${user.profileFlagCode}.png`}
+                                            srcSet={`https://flagcdn.com/160x120/${user.profileFlagCode}.png 2x,
+                                                            https://flagcdn.com/240x180/${user.profileFlagCode}.png 3x`}
+                                            width="40"
+                                            height="30"
+                                            alt={user.profileFlagCode}
+                                            className='' />
+                                        {/* displayName of each user */}
+                                        <div className='px-2'>
+                                            {user.displayName}
+                                        </div>
+                                    </div>
+                                    {/* the highest score of this user */}
+                                    <div className='font-bold'>
+                                        {user.totalCorrectAnswers}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
 
@@ -325,10 +318,10 @@ const Leaderboard = () => {
                     {rankingHighestScore?.map((user, i) => {
                         return (
                             <>
-                                <div key={user.uid} className={`flex justify-between px-4 py-6 rounded-2xl 
-                    ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
-                    ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
-                    ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
+                                <div key={user.uid + 'desktop highest score'} className={`flex justify-between px-4 py-6 rounded-2xl 
+                                    ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
+                                    ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
+                                    ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
                                     <div className='grid grid-cols-[36px_auto_1fr] items-center gap-6'>
                                         <div className='flex justify-center'>
                                             {i + 1}
@@ -366,7 +359,7 @@ const Leaderboard = () => {
                     {rankingTotalScore?.map((user, i) => {
                         return (
                             <>
-                                <div key={user.uid} className={`flex justify-between px-4 py-6 rounded-2xl
+                                <div key={user.uid + 'desktop total score'} className={`flex justify-between px-4 py-6 rounded-2xl
                                         ${i === 0 && 'bg-gradient-to-r from-yellow-300 to-yellow-100 '}
                                         ${i === 1 && 'bg-gradient-to-r from-slate-300 to-slate-100'}
                                         ${i === 2 && 'bg-gradient-to-r from-orange-500 to-orange-200'} `}>
