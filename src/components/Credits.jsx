@@ -68,17 +68,17 @@ const Credits = ({ sixtyFlagCodes }) => {
 
                 {/* Back to lobby button */}
                 <div className='flex items-center gap-3
-             md:gap-12'>
+                    md:gap-12'>
                     <button onClick={() => navigate('/')}
                         className='rounded-xl w-[50%] p-3 text-mainBackground font-bold transition
-                bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]
-                md:p-6 md:text-2xl md:hover:scale-[102%] md:active:scale-100'>
+                        bg-gradient-to-br  from-[#5fd1f9] to-[#5558da]
+                        md:p-6 md:text-2xl md:hover:scale-[102%] md:active:scale-100'>
                         Back To Lobby
                     </button>
                     <button onClick={() => navigate(`/leaderboard`)}
                         className='rounded-xl w-[50%] p-3 text-mainBackground font-bold transition
-                bg-gradient-to-br  to-[#5fd1f9] from-[#5558da]
-                md:p-6 md:text-2xl md:hover:scale-[102%] md:active:scale-100'>
+                        bg-gradient-to-br  to-[#5fd1f9] from-[#5558da]
+                        md:p-6 md:text-2xl md:hover:scale-[102%] md:active:scale-100'>
                         Leaderboard
                     </button>
                 </div>

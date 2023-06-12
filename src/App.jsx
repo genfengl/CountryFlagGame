@@ -10,7 +10,6 @@ import Leaderboard from './components/Leaderboard'
 import Credits from './components/Credits'
 import NotFound from './components/NotFound'
 
-
 function App() {
   const [countryList, setCountryList] = useState(
     {
